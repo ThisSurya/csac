@@ -3,8 +3,7 @@ import DOMPurify from 'dompurify';
 import { useEffect, useState } from 'react';
 import { Image } from 'primereact/image';
 import { Link } from '@inertiajs/react';
-const render = ({ data, documentations }) => {
-    const [activity, setActivity] = useState()
+const render = ({ request, documentations }) => {
     function paragraph_render(p_semantic) {
         return { __html: DOMPurify.sanitize(p_semantic) }
     }
@@ -12,44 +11,37 @@ const render = ({ data, documentations }) => {
     const [images, setImages] = useState([])
 
     const LoopImage = () => {
-        console.log(images)
-        let list = images.map(documentation => {
+        let list = documentations.map(documentation => {
             return (
-            <Image src={`${documentation.pathurl}`} alt="" key={documentation.id} width='300'/>
+            <img src={`${documentation.pathurl}`} alt="" key={documentation.id} width='300'/>
         )
         })
-
         return <div className="flex">{list}</div>
     }
 
     useEffect(() => {
-        console.log(documentations);
-        async function fetchData() {
-            const get = await fetch(`/getImage?image=${data[0].id}`)
-
-            setImages(await get.json())
-        }
-        fetchData()
+        console.log(request)
     }, [])
+
     return (
         <div className="">
             <Header />
-            <div className="m-10">
-                <Link href={route('landing')} className='w-32'>
-                    <div className='border-2 border-gray-200 rounded-lg w-32'>
+            <div className="lg:m-6 m-4">
+                <Link href={route('activity.index')} className='w-32'>
+                    <div className='border-2 border-gray-200 rounded-lg w-32 hover:border-gray-700'>
                         <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFFFF" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
                             </svg>
-                            <div className="ml-2">
+                            <div className="ml-4">
                                 <p className='font-bold'>Kembali</p>
                             </div>
                         </div>
                     </div>
                 </Link>
-                <div className="pb-2 border-b-2 border-gray-300 flex pt-10">
-                    <h1 className='text-5xl font-semibold mr-auto'>{data[0].title}</h1>
-                    <div className="mt-auto">
+                <div className="pb-2 border-b-2 border-gray-300 flex lg:pt-6 mt-4">
+                    <h1 className='lg:text-5xl text-3xl font-semibold mr-auto'>{request[0].title}</h1>
+                    <div className="mt-auto lg:block hidden">
                         <p className='text-gray-300 text-sm'> Was this page is helpful?</p>
                     </div>
                     <div className="mt-auto">
@@ -63,7 +55,7 @@ const render = ({ data, documentations }) => {
                         </svg>
                     </div>
                 </div>
-                <div className="text-lg" dangerouslySetInnerHTML={paragraph_render(data[0].content)}>
+                <div className="lg:text-lg text-md" dangerouslySetInnerHTML={paragraph_render(request[0].content)}>
                 </div>
                 <LoopImage />
             </div>

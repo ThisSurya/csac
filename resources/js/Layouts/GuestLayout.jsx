@@ -1,54 +1,136 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from '../../img/Logo-Web-Putih-980x204.png'
 import NavLink from '@/Components/NavLink';
-
+import SecNavLink from '@/Components/SecNavLink';
+import DropdownNavLink from '@/Components/DropdownNavLink';
 export default function Guest({ children }) {
-    return (
-        <header className="">
-            <div className="top-0 grid grid-cols-12 px-8 pb-8 bg-blue-900 h-24 pt-1 overflow-x-hidden w-100% m-auto">
-                <div className="col-span-1"></div>
-                <div className="col-span-3">
-                    <a href={route('landing')}>
-                        <img src={logo} className="" alt="" />
-                    </a>
-                </div>
+    const [isShow, setShow] = useState(false);
+    const dropdownDiv = useRef();
 
-                <div className="col-span-2"></div>
-                <div className="col-span-6 my-auto">
-                    <div className="lg:grid lg:grid-cols-12 hidden text-center text-white">
-                        <div className="col-span-2">
-                            <NavLink href={route('publication.index')} active={route().current('publication.index')}>
-                                Publication
-                            </NavLink>
-                        </div>
-                        <div className="col-span-2">
-                            <NavLink href={route('research.index')} active={route().current('research.index')}>
-                                Researcher
-                            </NavLink>
-                        </div>
-                        <div className="col-span-2">
-                            <NavLink href={route('partnership.index')}>
-                                Partnership
-                            </NavLink>
-                        </div>
-                        <div className="col-span-3">
-                            <NavLink href={route('ourresearch.index')}>
-                                Our Research
-                            </NavLink>
-                        </div>
-                        <div className="col-span-2">
-                            <NavLink href={route('contact.index')} active={route().current('contact.index')}>
-                                Contact us
-                            </NavLink>
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [])
+
+    const handleClickOutside = (event) => {
+        if (dropdownDiv.current && !dropdownDiv.current.contains(event.target)) {
+            changeShow()
+        }
+    }
+
+    function changeShow() {
+        setShow(!isShow)
+        console.log(isShow)
+    }
+
+    function Dropdown() {
+        return (
+            <div className="">
+                {isShow && (
+                    <div className="absolute right-4 mt-2 w-48">
+                        <div className="overflow-scroll border-2 bg-white max-w-full">
+                            <div className="hover p-3">
+                                <h1>Publication</h1>
+                            </div>
+                            <div className="hover p-3">
+                                <h1>Researcher</h1>
+                            </div>
+                            <div className="hover p-3">
+                                <h1>Our Research</h1>
+                            </div>
+                            <div className="hover p-3">
+                                <h1>Contact us</h1>
+                            </div>
                         </div>
                     </div>
+                )}
+            </div>
+        )
+    }
+    return (
+        <header className="">
+            <div className="hidden lg:block">
+                <div className="top-0 grid grid-cols-12 px-8 pb-8 bg-blue-900 lg:h-24 h-20 pt-1">
+                    <div className="col-span-1"></div>
+                    <div className="col-span-3 lg:mt-4 xl:mt-2">
+                        <a href={route('landing')}>
+                            <img src={logo} className="" alt="" />
+                        </a>
+                    </div>
 
-                    <div className="block lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="white" class="bi bi-list" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-                        </svg>
+                    <div className="col-span-2"></div>
+                    <div className="col-span-6 xl:my-auto lg:mt-7">
+                        <div className="grid grid-cols-12 text-center text-white">
+                            <div className="col-span-2">
+                                <NavLink href={route('publication.index')} active={route().current('publication.index')}>
+                                    Publication
+                                </NavLink>
+                            </div>
+                            <div className="col-span-2">
+                                <NavLink href={route('research.index')} active={route().current('research.index')}>
+                                    Researcher
+                                </NavLink>
+                            </div>
+                            <div className="col-span-2">
+                                <NavLink href={route('partnership.index')} active={route().current('partnership.index')}>
+                                    Partnership
+                                </NavLink>
+                            </div>
+                            <div className="col-span-3">
+                                <NavLink href={route('ourresearch.index')} active={route().current('ourresearch.index')}>
+                                    Our Research
+                                </NavLink>
+                            </div>
+                            <div className="col-span-2">
+                                <NavLink href={route('contact.index')} active={route().current('contact.index')}>
+                                    Contact us
+                                </NavLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="block lg:hidden">
+                <div className="flex bg-blue-900 h-16">
+                    <div className="ml-8 my-auto mr-auto">
+                        <a href={route('landing')}>
+                            <img src={logo} className="" alt="" width={225} />
+                        </a>
+                    </div>
+
+                    <div className="my-auto mr-8">
+                        <DropdownNavLink>
+                            <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
+                                <SecNavLink href={route('publication.index')} active={route().current('publication.index')} className='hover:bg-gray-200'>
+                                    Publication
+                                </SecNavLink>
+                            </div>
+                            <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
+                                <SecNavLink href={route('research.index')} active={route().current('research.index')} className='hover:bg-gray-200'>
+                                    Researcher
+                                </SecNavLink>
+                            </div>
+                            <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
+                                <SecNavLink href={route('ourresearch.index')} active={route().current('ourresearch.index')} className='hover:bg-gray-200'>
+                                    Our Research
+                                </SecNavLink>
+                            </div>
+                            <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
+                                <SecNavLink href={route('partnership.index')} active={route().current('partnership.index')} className='hover:bg-gray-200'>
+                                    Partnership
+                                </SecNavLink>
+                            </div>
+                            <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
+                                <SecNavLink href={route('contact.index')} active={route().current('contact.index')}>
+                                    Contact us
+                                </SecNavLink>
+                            </div>
+                        </DropdownNavLink>
                     </div>
                 </div>
             </div>

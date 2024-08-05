@@ -14,11 +14,17 @@ class IsAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        if(Auth::user()->isadmin != true){
-            return response()->json('Kamu tidak punya akses admin');
+        try {
+            if (Auth::user()->isadmin != true) {
+                return response()->json('Kamu tidak punya akses admin');
+            }
+        } catch (\Exception $e) {
+            return redirect()->to(route('landing'));
         }
+
+
         return $next($request);
     }
 }

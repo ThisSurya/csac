@@ -10,13 +10,16 @@ import { DataView } from "primereact/dataview";
 import DOMPurify from 'dompurify';
 
 const renderDisplay = () => {
+
+
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
     })
     const [result_data_past_now, setResultDataPast] = useState([]);
     const [result_data_future, setResultDataFuture] = useState([]);
-
+    const [shownableData, setShownableData] = useState([]);
+    const [Head, setHead] = useState([]);
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -39,11 +42,13 @@ const renderDisplay = () => {
         data.password = '';
         async function fetchData() {
             const get = await fetch('/getData?dateoperand=3')
-            const save = await get.json();
-            setResultDataPast(save)
+            setResultDataPast(await get.json())
             const get2 = await fetch('/getDate?dateoperand=2')
-            const save2 = await get2.json();
-            setResultDataFuture(save2)
+            setResultDataFuture(await get2.json())
+            const get3 = await fetch('/landing/getLanding?section=1')
+            setHead(await get3.json())
+            const get4 = await fetch(route('feature.getData.shownable'))
+            setShownableData(await get4.json())
         }
         fetchData()
     }, [])
@@ -74,19 +79,19 @@ const renderDisplay = () => {
     function itemActivityTEmplate(product) {
         return (
             <Link href={route('activity.detail', product.id)} key={product.id}>
-                <div className="p-1 grid grid-cols-12 mx-24 border-b-2 gap-2 py-2">
+                {/* Jika akses menggunakan desktop */}
+                <div className="hidden p-1 lg:grid grid-cols-12 lg:mx-24 mx-12 border-b-2 gap-2 py-2">
                     <div className="col-span-1 my-auto">
                         <div className="border-2 p-2 border-gray-200 rounded-lg">
-                            <img className="" loading="lazy" src="https://via.placeholder.com/150" />
+                            <img className="" loading="lazy" src={`${product.sampul}`} width={150} />
                         </div>
                     </div>
                     <div className="col-span-10 flex items-center">
                         <div className="">
-                            <h1 className="text-xl font-bold">{product.title}</h1>
+                            <h1 className="text-blue-900 font-medium text-xl border-b-2 border-b-blue-900">{product.title}</h1>
                             <div className="" dangerouslySetInnerHTML={paragraph_render(product.content)}></div>
                             <div className="flex">
-                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.name}</p>
-                                <p className="text-xs text-gray-500">{product.created_at}</p>
+                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.created_at}</p>
                             </div>
                         </div>
                     </div>
@@ -99,6 +104,29 @@ const renderDisplay = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Akses menggunakan mobile */}
+                <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-10 my-4">
+                    <div className="mx-5">
+                        <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center my-4">
+                            <img className="" loading="lazy" src={`${product.sampul}`} />
+                        </div>
+                        <div className="px-6 py-4">
+                            <div className="mr-auto">
+                                <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">{product.title}</h1>
+                                <div className="text-xs text-gray-600" dangerouslySetInnerHTML={paragraph_render(product.content)}></div>
+                            </div>
+                            <div className="flex">
+                                <div className="mr-auto">
+                                    <p className='text-[9px] text-gray-300 flex justify-end'>999+ {product.total_view}</p>
+                                </div>
+                                <div className="">
+                                    <p className='text-[9px] text-gray-300 flex justify-end'>{product.tgl}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Link>
         )
     }
@@ -107,19 +135,22 @@ const renderDisplay = () => {
         <div className="container bg-cover bg-local bg-center max-h-screen">
             <Header />
             {/* Header CSAC  */}
-            <div className="flex flex-col items-end justify-center px-10 inset-0 p-40 mb-22">
-                <h1 className="text-9xl text-white font-bold">CSAC</h1>
-                <p className="text-2xl text-white text-right">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nihil quisquam fugiat facere deleniti natus modi pariatur unde ipsam sequi, atque, distinctio velit cumque ab. Voluptatibus fuga repudiandae aliquam ratione.</p>
-                <a href="#" className="text-lg text-white text-right">Lihat apa yang kami lakukan...</a>
+            <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
+                <h1 className="lg:text-9xl text-white lg:font-bold font-semibold text-6xl">CSAC</h1>
+                {Head.map(data =>
+                    <div className="">
+                        <p className="lg:text-xl text-white text-right">{data.deskripsi}</p>
+                    </div>
+                )}
             </div>
             {/* Content carousel */}
-            <div className="bg-[#1e3a8a] mt-16 py-8">
+            <div className="bg-[#1e3a8a] lg:mt-16 mt-8 lg:py-8 py-4">
                 <div className="px-10">
                     <div className="border-b-2">
-                        <h1 className="text-center text-4xl text-white pb-5">Feature Research</h1>
+                        <h1 className="text-center lg:text-4xl text-3xl font-semibold text-white lg:pb-5 pb-3">Feature Research</h1>
                     </div>
                 </div>
-                <div className="px-32  mt-10">
+                <div className="lg:px-32 px-2 lg:mt-10 mt-4">
                     <Carousel
                         additionalTransfrom={0}
                         arrows
@@ -164,83 +195,39 @@ const renderDisplay = () => {
                         rewindWithAnimation={false}
                         rtl={false}
                         shouldResetAutoplay
-                        showDots={false}
+                        showDots={true}
                         slidesToSlide={1}
                         swipeable
                     >
-                        <div className="px-8">
-                            <a class="p-2 max-w-xs border shadow-md border-2 border-white bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
-                                href="#">
-                                <img src="https://loremflickr.com/800/600/girl" class="shadow rounded-lg overflow-hidden border w-70 p-2" />
-                                <div class="mt-4">
-                                    <h4 class="font-bold text-lg">Exercises</h4>
-                                    <p class="mt-2 text-sm text-gray-600">Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.
-                                    </p>
-                                    <div class="mt-5">
-                                        <p className="text-center text-sm text-gray-600">Read more</p>
-                                        {/* <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">Start Creating</button> */}
+                        {shownableData.map(data =>
+                            <div className="px-8 pb-8">
+                                <a class="p-2 max-w-xs border shadow-md border-2 border-white h-[57vh] bg-white rounded-2xl hover:border-gray-600 flex flex-col "
+                                    href="#">
+                                    <img src={data.sampulpath} class="shadow rounded-lg overflow-hidden border w-70 p-2" />
+                                    <div className="mt-4 mt-2 px-2">
+                                        <h4 class="font-bold text-lg text-center">{data.title_research}</h4>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="px-8">
-                            <a class="p-2 max-w-xs border shadow-md border-2 border-white bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
-                                href="#">
-                                <img src="https://loremflickr.com/800/600/girl" class="shadow rounded-lg overflow-hidden border w-70 p-2" />
-                                <div class="mt-4">
-                                    <h4 class="font-bold text-lg">Exercises</h4>
-                                    <p class="mt-2 text-sm text-gray-600">Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.
-                                    </p>
-                                    <div class="mt-5">
-                                        <p className="text-center text-sm text-gray-600">Read more</p>
-                                        {/* <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">Start Creating</button> */}
+                                    <div class="overflow-auto px-2">
+                                        <p class="lg:mt-2 text-sm text-gray-700 mb-auto">{data.deskripsi}
+                                        </p>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="px-8">
-                            <a class="p-2 max-w-xs border shadow-md border-2 border-white bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
-                                href="#">
-                                <img src="https://loremflickr.com/800/600/girl" class="shadow rounded-lg overflow-hidden border w-70 p-2" />
-                                <div class="mt-4">
-                                    <h4 class="font-bold text-lg">Exercises</h4>
-                                    <p class="mt-2 text-sm text-gray-600">Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.
-                                    </p>
-                                    <div class="mt-5">
-                                        <p className="text-center text-sm text-gray-600">Read more</p>
-                                        {/* <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">Start Creating</button> */}
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="px-8">
-                            <a class="p-2 max-w-xs border shadow-md border-2 border-white bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
-                                href="#">
-                                <img src="https://loremflickr.com/800/600/girl" class="shadow rounded-lg overflow-hidden border w-70 p-2" />
-                                <div class="mt-4">
-                                    <h4 class="font-bold text-lg">Exercises</h4>
-                                    <p class="mt-2 text-sm text-gray-600">Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.Create Exercises for any subject with the topics you and your students care about.
-                                    </p>
-                                    <div class="mt-5">
-                                        <p className="text-center text-sm text-gray-600">Read more</p>
-                                        {/* <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-900">Start Creating</button> */}
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        )}
+
                     </Carousel>;
                 </div>
             </div>
             {/*  Activities and member login */}
-            <div className="my-12">
-                <div className="mt-10 grid grid-cols-12">
-                    <div className="col-span-9">
+            <div className="lg:my-12">
+                <div className="lg:mt-10 mt-5 grid grid-cols-12">
+                    <div className="col-span-12 md:col-span-9">
                         <div className="grid grid-cols-12">
                             <div className="col-span-1"></div>
                             <div className="col-span-10 border-b-4 border-[#e4f47c]">
                                 <div className="flex">
                                     <h1 className="text-left font-bold text-lg mr-auto">Our activities</h1>
-                                    <Link href={route('activity.index')}>
+                                    <Link href={route('activity.index')} className='hover:text-gray-500 hover:border-b-2 hover:border-gray-500'>
                                         Lebih banyak
                                     </Link>
                                 </div>
@@ -248,13 +235,13 @@ const renderDisplay = () => {
                         </div>
                         <DataView value={result_data_past_now} listTemplate={loopActivityTemplate} />
                     </div>
-                    <div className="col-span-2">
+                    <div className="lg:col-span-2 col-span-12 my-3 lg:m-0">
                         <div className="grid grid-flow-row auto-rows-max">
-                            <div className="border rounded">
+                            <div className="border rounded lg:block mx-auto lg:m-0">
                                 <h1 className="font-bold text-md border-b-2 my-3 mx-3 pb-2 text-center">Member area</h1>
                                 <form action="" onSubmit={submit}>
-                                    <div className="mx-7 max-w-xs">
-                                        <div className="mb-2">
+                                    <div className="mx-7">
+                                        <div className="mt-2 mx-4">
                                             <TextInput
                                                 id="email"
                                                 name="email"
@@ -266,7 +253,7 @@ const renderDisplay = () => {
                                             <InputError message={errors.email} className="mt-2" />
                                         </div>
 
-                                        <div className="mt-2">
+                                        <div className="mt-2 mx-4">
                                             <TextInput
                                                 id="password"
                                                 name="password"
@@ -287,8 +274,8 @@ const renderDisplay = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="">
-                                <div className="mt-10 border text-center">
+                            <div className="mx-12 mt-6 lg:m-0">
+                                <div className="border text-center">
                                     <h1 className='font-semibold text-lg'>Agenda</h1>
                                 </div>
                                 {

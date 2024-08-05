@@ -6,6 +6,7 @@ use App\Models\Activities;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use App\Services\FileUploadServices;
+use Illuminate\Support\Facades\Storage;
 
 class ActivityServices
 {
@@ -19,18 +20,23 @@ class ActivityServices
     public function store($data, $tanggal)
     {
         try {
+            if ($data->hasFile('sampul')) {
+                $upload = $data->file('sampul')->store('public');
+            };
+
             $activity = Activities::create([
                 'title' => $data->title,
                 'content' => $data->content,
                 'summary_content' => $data->summary_content,
                 'research_type' => $data->research_type,
                 'tgl' => $tanggal,
+                'sampul' => Storage::url($upload),
                 'user_id' => Auth::id(),
             ]);
-
             if ($data->hasFile('file_upload')) {
-                $result = $this->fileupload->store($data->allFiles(), $activity->id());
+                $result = $this->fileupload->store($data->allFiles(), $activity->id);
             };
+
 
             return $activity;
         } catch (\Exception $e) {
@@ -64,10 +70,10 @@ class ActivityServices
         } else if ($operand == '2') {
             $data = Activities::where('tgl', '>', $date)->take(10)->get();
             return $data;
-        } else if($operand == '3'){
+        } else if ($operand == '3') {
             $data = Activities::where('tgl', '<=', $date)->take(10)->get();
             return $data;
-        }else{
+        } else {
             $data = Activities::take(10)->get();
             return $data;
         }
@@ -81,10 +87,10 @@ class ActivityServices
         } else if ($operand == '2') {
             $data = Activities::select('tgl')->where('tgl', '>', $date)->take(10)->get();
             return $data;
-        } else if($operand == '3'){
+        } else if ($operand == '3') {
             $data = Activities::select('tgl')->where('tgl', '<=', $date)->take(10)->get();
             return $data;
-        }else{
+        } else {
             $data = Activities::select('tgl')->take(4)->get();
             return $data;
         }

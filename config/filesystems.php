@@ -44,6 +44,22 @@ return [
             'throw' => false,
         ],
 
+        'sampul_public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/sampul_public'),
+            'url' => env('APP_URL').'/sampul',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'partner_public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/partner_public'),
+            'url' => env('APP_URL').'/partner',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -71,6 +87,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('sampul') => storage_path('app/sampul_public'),
+        public_path('partner') => storage_path('app/partner_public'),
     ],
 
 ];

@@ -40,6 +40,22 @@ const render = ({ user }) => {
                             Member
                         </NavLink>
 
+                        <NavLink href={route('feature')} active={route().current('feature')} className="flex pr-auto items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Feature research
+                        </NavLink>
+                        <NavLink href={route('partnership')} active={route().current('partnership')} className="flex pr-auto items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Partnership
+                        </NavLink>
                         <NavLink href={route('profile.edit')} active={route().current('profile.edit')} className="flex pr-auto items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">

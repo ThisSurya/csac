@@ -18,6 +18,8 @@ class Activities extends Model
         'summary_content',
         'user_id',
         'tgl',
+        'sampulpath',
+        'sampulname',
         'id'
     ];
 }

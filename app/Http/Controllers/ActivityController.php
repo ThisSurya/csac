@@ -12,6 +12,7 @@ use App\Services\ActivityServices;
 use App\Services\FileUploadServices;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Auth;
 use DateTime;
 
 class ActivityController extends Controller
@@ -33,15 +34,15 @@ class ActivityController extends Controller
     public function getImage()
     {
         $key = request('image');
-        $data = Fileuploads::where('activities_id', $key)->get();
-        return $data;
+        $request = Fileuploads::where('activities_id', $key)->get();
+        return $request;
     }
 
     public function detailPage($id)
     {
         $request = Activities::where('id', $id)->get();
         $documentation = Fileuploads::where('activities_id', $id)->get();
-        return Inertia::render('Activity/Detail', ['data' => $request, 'documentations' => $documentation]);
+        return Inertia::render('Activity/Detail', ['request' => $request, 'documentations' => $documentation]);
     }
 
     public function getData()
@@ -91,7 +92,8 @@ class ActivityController extends Controller
             'research_type' => 'required',
             'summary_content' => 'required|max:50',
             'tgl' => 'required',
-            'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
+            'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'sampul.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
         ]);
         $tanggal = new DateTime($request->tgl);
         $tanggal = $tanggal->format('Y-m-d');
@@ -103,15 +105,13 @@ class ActivityController extends Controller
                 'research_type' => 'The field is required!',
                 'content' => 'The field is required!',
                 'tgl' => 'This field is required',
-                'fileUpload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg'
+                'file_upload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg',
+                'sampul' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg'
             ]);
         }
-        if ($request->hasFile('file_upload')) {
-            $activity = $this->activity->store($request, $tanggal);
-            $result = $this->fileupload->store($request->allFiles(), $activity->id);
-        } else {
-            $result = $this->activity->store($request, $tanggal);
-        }
+
+        $result = $this->activity->store($request, $tanggal);
+
 
         if ($result != true) {
             dd('ada error');
@@ -131,10 +131,11 @@ class ActivityController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
-            'summary_content' => 'required|max:200',
             'research_type' => 'required',
+            'summary_content' => 'required|max:50',
             'tgl' => 'required',
-            'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
+            'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg',
+            'sampul.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
         ]);
 
         $tanggal = new DateTime($request->tgl);
@@ -143,12 +144,15 @@ class ActivityController extends Controller
         if ($validator->fails()) {
             throw ValidationException::withMessages([
                 'title' => 'The field is required!',
-                'content' => 'The field is required!',
+                'summary_content' => ' max 200 character!',
                 'research_type' => 'The field is required!',
-                'tgl' => 'The field is required!',
-                'fileUpload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg'
+                'content' => 'The field is required!',
+                'tgl' => 'This field is required',
+                'file_upload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg',
+                'sampul' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg'
             ]);
         }
+
         $result = $this->activity->update($request, $tanggal);
         if ($result != true) {
             dd($request);
@@ -161,6 +165,6 @@ class ActivityController extends Controller
     {
         $id = explode(",", $id);
         $new_id = array_pop($id);
-        $activity = Activities::whereIn('id', $id)->delete();
+        $activity = $this->activity->delete($id);
     }
 }

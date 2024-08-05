@@ -6,14 +6,14 @@ use App\Models\Fileupload;
 use App\Models\FileUploads;
 use Illuminate\Support\Facades\Storage;
 
-class FileUploadServices
+class SampulUploadServices
 {
     public function store($array_image, $id)
     {
         try {
             foreach ($array_image as $images) {
                 foreach ($images as $image){
-                    $upload = $image->store('public');
+                    $upload = $image->store('sampul_public');
                     FileUploads::create([
                         'name' => $upload,
                         'activities_id' => $id,

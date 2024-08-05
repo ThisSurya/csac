@@ -1,4 +1,3 @@
-'use server-side'
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout2";
 import { useEffect, useRef, useState } from "react";
@@ -168,8 +167,14 @@ const render = (id) => {
                                     <InputError message={errors.content} className="mt-2" />
                                 </div>
 
-                                <div className="p-3">
-                                    <input type="file" multiple onChange={handleMultipleChange} />
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Dokumentasi</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <input type="file" multiple onChange={handleMultipleChange} />
+                                        <InputError message={errors.file_upload} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
                                     <Button label="Update" outlined />

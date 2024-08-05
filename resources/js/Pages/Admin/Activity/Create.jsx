@@ -8,6 +8,8 @@ import 'primereact/resources/themes/lara-light-blue/theme.css';
 import { Dropdown } from "primereact/dropdown";
 import InputError from "@/Components/InputError";
 import { Calendar } from 'primereact/calendar';
+import { useRef, useState } from "react";
+import CropImage from '@/Components/CropImage';
 
 const render = (user) => {
     let today = new Date()
@@ -26,14 +28,25 @@ const render = (user) => {
     maxDate.setMonth(nextMonth)
     maxDate.setFullYear(nextYear)
 
+    const [isDisable, setIsDisable] = useState(true);
+    const sampulUploader = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         title: '',
         content: '',
         summary_content: '',
         file_upload: [],
+        sampul: '',
         tgl: '',
         research_type: '',
     });
+
+    const canCreateActivity = (result) => {
+        if(result){
+            setIsDisable(false);
+        }else{
+            setIsDisable(true)
+        }
+    }
 
     const research_category = [
         { type: 'Robotics' },
@@ -65,7 +78,7 @@ const render = (user) => {
                             <h1>Add activity</h1>
                         </div>
                         <div className="py-2">
-                        <form action="" method="post" onSubmit={submit}>
+                            <form action="" method="post" onSubmit={submit}>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
                                         <h1>Title: </h1>
@@ -150,17 +163,34 @@ const render = (user) => {
                                     <InputError message={errors.content} className="mt-2" />
                                 </div>
 
-                                <div className="p-3">
-                                    <input type="file" multiple onChange={handleMultipleChange} />
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Sampul</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <CropImage
+                                            ratio={1}
+                                            onInputChange={(result) => { setData('sampul', result); canCreateActivity(result) }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Dokumentasi</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <input type="file" multiple onChange={handleMultipleChange} />
+                                        <InputError message={errors.file_upload} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Update" outlined />
+                                    <Button label="Create" outlined disabled={isDisable}/>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     )

@@ -4,27 +4,22 @@ import { Link, useForm } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Paginator } from 'primereact/paginator';
 import { Button } from 'primereact/button';
-import { InputSwitch } from 'primereact/inputswitch';
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
-
+import HelperCard from '@/Components/HelperCard';
 import DangerButton from "@/Components/DangerButton";
 
 const render = () => {
     const { data, setData, post, processing, error, reset, delete: destroy } = useForm({
         searchquery: ''
     });
-
-
     const [selectedProduct, setSelectedProduct] = useState([])
     const [results, setResult] = useState([]);
-
     const [confDelete, setConfDelete] = useState(false);
-
     const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
     const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+
     const getData = async () => {
         axios.get('/filterActivity',
             {
@@ -48,6 +43,36 @@ const render = () => {
         fetchData()
     }, [])
 
+    const [showHelper, setShowHelper] = useState(false);
+
+    const setHelperActive = () => {
+        setShowHelper(true)
+    }
+
+    const setHelperDeactive = () => {
+        setShowHelper(false)
+    }
+
+    function helperModal() {
+        return (
+            <Modal show={showHelper} onClose={setHelperDeactive}>
+                <div className="p-4">
+                    <div className="font-bold text-xl border-b-2 border-gray-200 flex">
+                        <h1 className="mr-auto">Activity Helper!</h1>
+                        <button onClick={setHelperDeactive}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="text-sm">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem est maiores deserunt nostrum ipsa nulla dignissimos, voluptas nobis, ex, vitae consequuntur in minus nemo possimus animi nam qui pariatur.
+                    </div>
+                </div>
+            </Modal>
+        )
+    }
 
     function actionRow(rowData) {
         return (
@@ -63,14 +88,14 @@ const render = () => {
             arr += product.id + ","
         })
         destroy(route('activity.delete', arr))
-        getData()
+        // getData()
     }
 
-    function showModalDelete() {
+    const showModalDelete = () => {
         setConfDelete(true)
     }
 
-    function closeModalDelete() {
+    const closeModalDelete = () => {
         setConfDelete(false)
     }
 
@@ -78,8 +103,12 @@ const render = () => {
         <div className="flex">
             <AuthenticatedLayout />
             <div className="flex flex-col w-full">
-                <div className="h-16 my-4 ml-4">
-                    <h1 className="text-gray-500 text-xl font-bold">Current Page: Activity</h1>
+                <div className="h-16 my-4 ml-4 flex">
+                    <h1 className="text-gray-500 text-xl font-bold mr-2">Current Page: Activity</h1>
+                    <HelperCard
+                        header={<h1 className="mr-auto">Activity page</h1>}
+                        content={<p>Page ini berisi konten aktivitas yang akan ditampilkan pada activities page</p>}
+                    />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2  mx-2 mb-2">
                     <div className="p-5">
@@ -99,7 +128,7 @@ const render = () => {
                                 />
                             </div>
                             <div className="ml-auto">
-                                <Link href={route('activity.create')}>
+                                <Link href={route('activity.create')} className="hover:text-gray-300 hover:decoration-underline">
                                     Input
                                 </Link>
                             </div>
@@ -147,23 +176,6 @@ const render = () => {
 
 
     )
-
-
-    function confirmRender() {
-        return (
-            <Modal show={confDelete} onClose={closeModalDelete}>
-                <div className="p-4">
-                    <form action="" method="POST" onSubmit={deleteConfirmation}>
-
-                        <p>Apakah kamu yakin ingin menghapus data tersebut? </p>
-                        <p className="text-red font-bold">Aksi ini tidak dapat diurungkan</p>
-                    </form>
-                </div>
-
-
-            </Modal>
-        )
-    }
 }
 
 export default render;

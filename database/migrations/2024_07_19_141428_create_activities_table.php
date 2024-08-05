@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('content');
             $table->text('summary_content')->nullable();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->text('fileupload')->nullable();
+            $table->string('sampulpath')->nullable();
+            $table->string('sampulname')->nullable();
             $table->date('tgl');
             $table->enum('research_type', ['Robotics', '3D Reconstruction', 'Applied AI', 'New Media and Emerging Media'])->default('Robotics');
             $table->integer('total_view')->nullable();
