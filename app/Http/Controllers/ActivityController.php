@@ -42,6 +42,9 @@ class ActivityController extends Controller
     {
         $request = Activities::where('id', $id)->get();
         $documentation = Fileuploads::where('activities_id', $id)->get();
+        if(sizeof($request) < 1){
+            return Inertia::render('Error/NotFound');
+        }
         return Inertia::render('Activity/Detail', ['request' => $request, 'documentations' => $documentation]);
     }
 
@@ -111,13 +114,7 @@ class ActivityController extends Controller
         }
 
         $result = $this->activity->store($request, $tanggal);
-
-
-        if ($result != true) {
-            dd('ada error');
-        } else {
-            return redirect()->to(route('activity'));
-        }
+        // return $result;
     }
 
     public function edit($id)
@@ -154,11 +151,7 @@ class ActivityController extends Controller
         }
 
         $result = $this->activity->update($request, $tanggal);
-        if ($result != true) {
-            dd($request);
-        } else {
-            return redirect()->to(route('activity'));
-        }
+        // return $result;
     }
 
     public function delete($id)

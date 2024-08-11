@@ -9,13 +9,33 @@ import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
 import { RedirectTo } from '@/Components/RedirectTo';
+import { InputTextarea } from "primereact/inputtextarea";
+import { Calendar } from 'primereact/calendar';
 
-const renderDisplay = () => {
+const renderDisplay = (id) => {
+    let today = new Date()
+    let month = today.getMonth()
+    let year = today.getFullYear()
+    let prevMonth = month === 0 ? 11 : month - 1
+    let prevYear = prevMonth === 11 ? year - 1 : year
+    let nextMonth = month === 11 ? 0 : month + 1
+    let nextYear = nextMonth === 0 ? year + 1 : year
+
+    let minDate = new Date()
+    let maxDate = new Date()
+
+    minDate.setMonth(prevMonth)
+    minDate.setFullYear(prevYear)
+    maxDate.setMonth(nextMonth)
+    maxDate.setFullYear(nextYear)
+
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        deskripsi: '',
-        isShown: false,
+        title: id.id[0].title,
+        deskripsi: id.id[0].deskripsi,
+        tanggal_mulai: id.id[0].tanggal_mulai,
         file_upload: '',
+        id: id.id[0].id
     });
 
     const [isActive, setisActive] = useState(false);
@@ -40,10 +60,10 @@ const renderDisplay = () => {
 
     function submit(e) {
         e.preventDefault()
-        post(route('partnership.store'), {
-            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik');
-                RedirectTo('partnership')},
-                onError: () => {showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false)}
+        post(route('ourresearch.update'), {
+            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil di ubah!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('ourresearch')},
+                onError: () => {showMessage('error', 'Warning', 'tidak bisa edit data'); setisActive(false)}
         });
     }
 
@@ -59,18 +79,15 @@ const renderDisplay = () => {
         <div className="flex">
             <Authenticated />
             <Toast ref={toast} />
-            {
-                showError()
-            }
             <div className="flex flex-col w-screen">
                 <div className="h-16 py-4 ml-4">
-                    <h1 className="text-gray-500 text-xl font-bold">Current Page: Create Partnership</h1>
+                    <h1 className="text-gray-500 text-xl font-bold">Current Page: Create Our Research</h1>
                 </div>
 
                 <div className="mx-2 mb-2 border-2 border-gray-200 shadow-md bg-white">
                     <div className="p-5">
                         <div className="font-bold text-2xl text-gray-400">
-                            <h1>Add partner</h1>
+                            <h1>Add Research</h1>
                         </div>
 
                         <div className="py-2">
@@ -81,12 +98,12 @@ const renderDisplay = () => {
                                     </div>
                                     <div className="col-span-9">
                                         <TextInput
-                                            id='name'
-                                            name='name'
-                                            value={data.name}
+                                            id='title'
+                                            name='title'
+                                            value={data.title}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => setData('name', e.target.value)}
+                                            onChange={(e) => setData('title', e.target.value)}
                                             required
                                             disabled={isActive}
 
@@ -99,51 +116,52 @@ const renderDisplay = () => {
                                         <h1>Deskripsi: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                        <TextInput
+                                    <InputTextarea
                                             id='deskripsi'
                                             name='deskripsi'
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
                                             onChange={(e) => setData('deskripsi', e.target.value)}
-                                            required
+                                            rows={5} cols={30}
                                             disabled={isActive}
-
                                         />
                                         <InputError message={errors.deskripsi} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
-                                        <h1>Is Shown</h1>
+                                        <h1>Tanggal: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                        <Checkbox
-                                            id='isShown'
-                                            name='isShown'
-                                            checked={data.isShown}
-                                            onChange={(e) => setData('isShown', e.target.checked)}
+                                        <Calendar value={data.tanggal_mulai} onChange={(e) => setData('tanggal_mulai', e.value)}
+                                            className="col-span-2 rounded-lg" minDate={minDate} maxDate={maxDate} readOnlyInput
+                                            dateFormat="yy/mm/dd"
+                                            inputStyle={{
+                                                borderRadius: "10px",
+                                                borderColor: "#d1d5db"
+                                            }}
                                             disabled={isActive}
 
                                         />
-                                        <InputError message={errors.isShown} className="mt-2" />
                                     </div>
+                                    <InputError message={errors.tanggal_mulai} className="mt-2" />
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
-                                        <h1>icon partner</h1>
+                                        <h1>Sampul depan</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
                                         <CropImage
-                                            ratio={4 / 3}
+                                            ratio={1}
                                             disabled={isActive}
-                                            onInputChange={(result) => {setData('file_upload', result); canCreateActivity(result)}}
+                                            onInputChange={(result) => {setData('file_upload', result)}}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined disabled={createActivity}/>
+                                    <Button label="Update" outlined/>
                                 </div>
                             </form>
                         </div>
@@ -153,5 +171,4 @@ const renderDisplay = () => {
         </div>
     )
 }
-
 export default renderDisplay;

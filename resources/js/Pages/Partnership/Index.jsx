@@ -18,23 +18,6 @@ const renderDisplay = () => {
         }
         fetchData()
     }, [])
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1 // optional, default to 1.
-        }
-    };
 
     const loopItemTemplate = (items) => {
         if (!items || items.length < 1) return (
@@ -75,7 +58,7 @@ const renderDisplay = () => {
                 <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-2 my-4">
                     <div className="mx-5">
                         <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center mt-4">
-                            <img className="" loading="lazy" src="https://via.placeholder.com/150" />
+                            <img className="" loading="lazy" src={`${data.sampulpath}`} width={240}  />
                         </div>
                         <div className="pb-4 pt-2">
                             <div className="mr-auto">
@@ -179,37 +162,6 @@ const renderDisplay = () => {
                     </div>
 
                     <DataView value={shownableData} listTemplate={loopItemTemplate} />
-                    {/* Jika akses menggunakan desktop */}
-                    {/* <div className="border-gray-200 rounded-lg shadow-md border-2 hidden lg:block border-b-4 border-b-blue-900 m-2">
-                        <div className="p-2">
-                            <div className="grid grid-cols-12">
-                                <div className="col-span-2">
-                                </div>
-                                <div className="col-span-10">
-                                    <div className="text-xl font-semibold">
-                                        <h1>Ini adalah Judul partnership</h1>
-                                    </div>
-                                    <div className="text-gray-600 text-sm">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex veniam laudantium cum alias, quam harum saepe consectetur in mollitia ullam, tempore sequi eaque ipsum iste quia iure cumque, nihil delectus.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* Jika akses menggunakan mobile */}
-                    {/* <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-2 my-4">
-                        <div className="mx-5">
-                            <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center mt-4">
-                                <img className="" loading="lazy" src="https://via.placeholder.com/150" />
-                            </div>
-                            <div className="pb-4 pt-2">
-                                <div className="mr-auto">
-                                    <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">Judul partnership</h1>
-                                    <div className="text-xs text-gray-600">Deskripsi kerjasama</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
 
                 <div className="lg:mx-10 mx-5 py-6">

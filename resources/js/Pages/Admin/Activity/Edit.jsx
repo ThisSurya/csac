@@ -8,7 +8,10 @@ import { Button } from "primereact/button";
 import InputError from "@/Components/InputError";
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from "primereact/dropdown";
-
+import { Toast } from 'primereact/toast';
+import CropImage from '@/Components/CropImage';
+import { RedirectTo } from "@/Components/RedirectTo";
+import { InputTextarea } from "primereact/inputtextarea";
 
 const render = (id) => {
 
@@ -42,36 +45,37 @@ const render = (id) => {
         id: id.id[0].id,
         research_type: id.id[0].research_type,
         tgl: id.id[0].tgl,
+        sampul: '',
         summary_content: id.id[0].summary_content
     });
 
+
+    const [isActive, setisActive] = useState(false);
+    const toast = useRef(null);
+    const showMessage = (type, summary, message) => {
+        setisActive(true)
+        if (message) {
+            console.log(message)
+            toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
+        }
+    }
+
     function submit(e) {
         e.preventDefault()
-        setData('id', id.id[0].id);
-        post(route('activity.update'))
+        post(route('activity.update'), {
+            onSuccess: () => { showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity') },
+            onError: () => {showMessage('error', 'Warning', 'tidak bisa update data'); setisActive(false)}
+        });
     }
 
     function handleMultipleChange(event) {
         setData('file_upload', [...event.target.files]);
     }
 
-    // const [test, setTest] = useState([]);
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const get = await fetch('/activity/admin/getData?key=1')
-
-    //         const result = await get.json();
-    //         console.log(result)
-    //         setTest(result)
-    //         console.log(test)
-    //     }
-    //     fetchData()
-
-    // }, [])
-
     return (
         <div className="flex">
             <AuthenticatedLayout />
+            <Toast ref={toast} />
             <div className="flex flex-col w-full">
                 <div className="h-16 my-4 ml-4">
                     <h1 className="text-gray-500 text-xl font-bold">Current Page: Edit Activity</h1>
@@ -82,7 +86,7 @@ const render = (id) => {
                             <h1>Edit activity</h1>
                         </div>
                         <div className="py-2">
-                        <form action="" method="post" onSubmit={submit}>
+                            <form action="" method="post" onSubmit={submit}>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
                                         <h1>Title: </h1>
@@ -96,6 +100,7 @@ const render = (id) => {
                                             isFocused={true}
                                             onChange={(e) => setData('title', e.target.value)}
                                             required
+                                            disabled={isActive}
                                         />
                                     </div>
                                     <InputError message={errors.title} className="mt-2" />
@@ -106,13 +111,16 @@ const render = (id) => {
                                         <h1>Summary: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                        <TextInput
+                                        <InputTextarea
                                             id='summary_content'
                                             name='summary_content'
                                             value={data.summary_content}
                                             className=""
                                             isFocused={true}
                                             onChange={(e) => setData('summary_content', e.target.value)}
+                                            rows={5} cols={30}
+                                            disabled={isActive}
+
                                         />
                                     </div>
                                     <InputError message={errors.summary_content} className="mt-2" />
@@ -130,6 +138,7 @@ const render = (id) => {
                                                 borderRadius: "10px",
                                                 borderColor: "#d1d5db"
                                             }}
+                                            disabled={isActive}
                                         />
                                     </div>
                                     <InputError message={errors.tgl} className="mt-2" />
@@ -149,6 +158,7 @@ const render = (id) => {
                                                 borderRadius: '10px',
                                                 borderColor: '#d1d5db'
                                             }}
+                                            disabled={isActive}
                                         />
                                     </div>
                                     <InputError message={errors.research_type} className="mt-2" />
@@ -161,18 +171,40 @@ const render = (id) => {
                                                 value={data.content}
                                                 onTextChange={(e) => setData('content', e.htmlValue)}
                                                 style={{ height: '150px' }}
+                                                readOnly={isActive}
                                             />
                                         </div>
                                     </div>
                                     <InputError message={errors.content} className="mt-2" />
                                 </div>
-
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Sampul</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <CropImage
+                                            ratio={1}
+                                            disabled={isActive}
+                                            onInputChange={(result) => { setData('sampul', result); canCreateActivity(result) }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Sampul poto</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200} />
+                                    </div>
+                                </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
                                         <h1>Dokumentasi</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <input type="file" multiple onChange={handleMultipleChange} />
+                                        <input type="file" multiple onChange={handleMultipleChange}
+                                            disabled={isActive}
+                                        />
                                         <InputError message={errors.file_upload} className="mt-2" />
                                     </div>
                                 </div>

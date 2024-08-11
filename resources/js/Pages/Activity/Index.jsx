@@ -66,7 +66,7 @@ const render = () => {
                 <div className="hidden p-1 lg:grid grid-cols-12 lg:mx-24 mx-12 border-b-2 gap-2 py-2">
                     <div className="col-span-1 my-auto">
                         <div className="border-2 p-2 border-gray-200 rounded-lg">
-                            <img className="" loading="lazy" src="https://via.placeholder.com/150" />
+                            <img className="" loading="lazy" src={`${product.sampulpath}`} width={150} />
                         </div>
                     </div>
                     <div className="col-span-10 flex items-center">

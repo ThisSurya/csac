@@ -2,17 +2,83 @@ import Header from '@/Layouts/GuestLayout';
 import '../../../css/activity.css';
 import Footer from '@/Layouts/FooterLayout';
 import { useEffect, useState } from 'react';
+import { DataView } from 'primereact/dataview';
 
 const render = () => {
     const [Head, setHead] = useState([]);
+    const [result_data, setResulData] = useState([]);
     useEffect(() => {
         async function fetchData() {
-            const get3 = await fetch('/landing/getLanding?section=4')
-            // console.log(await get3.json())
-            setHead(await get3.json())
+            const get = await fetch('/landing/getLanding?section=4')
+            setHead(await get.json())
+
+            const get2 = await fetch('/getOurResearch?searchquery=')
+            setResulData(await get2.json())
         }
         fetchData()
     }, [])
+
+    const loopOurResearchTemplate = (items) => {
+        if (!items || items.length < 1) return (
+            <div className="p-1 grid grid-cols-12 mx-24 border-b-2 gap-2 py-2">
+                <h1 className="col-span-12">Tunggulah aktivitas kami!</h1>
+            </div>
+        )
+
+        let list = items.map(result => {
+            return itemOurResearchTemplate(result)
+        })
+
+        return <div className="">{list}</div>
+    }
+
+    function itemOurResearchTemplate(rowData) {
+        return (
+
+            <div className="" key={rowData.id}>
+                {/* Jika akses menggunakan mobile */}
+                <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-10 mb-4 mt-1">
+                    <div className="mx-5">
+                        <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center my-4">
+                            <img className="" loading="lazy" src={`${rowData.sampulpath}`} width={150} />
+                        </div>
+                        <div className="px-6 py-4">
+                            <div className="mr-auto">
+                                <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">{rowData.title}</h1>
+                                <div className="text-xs text-gray-600"></div>
+                            </div>
+                            <div className="flex">
+                                <div className="mr-auto">
+                                    <p className='text-[9px] text-gray-300 flex justify-end'>{rowData.tanggal_mulai}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* jika akses menggunakan deskop */}
+                <div className="lg:grid grid-cols-4 mx-10 my-5 shadow-md hidden border-2 border-gray-200">
+                    <div className="col-span-3 p-4">
+                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900">
+                            <h1>{rowData.title}</h1>
+                        </div>
+                        <div className="text-blue-900 text-md">
+                            <p>{rowData.deskripsi}</p>
+                        </div>
+                    </div>
+                    <div className="col-span-1 p-4 my-auto">
+                        <div className="flex justify-center">
+                            <div className="">
+                                <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src={`${rowData.sampulpath}`} width={150}/>
+                                <div className="text-blue-900 font-medium text-2xl text-center">
+                                    <h1>{rowData.title}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="container bg-cover bg-local bg-center max-h-screen">
@@ -42,47 +108,11 @@ const render = () => {
                         <h1 className="text-center lg:text-4xl text-3xl font-semibold text-blue-900 lg:pb-5">Our Research</h1>
                     </div>
                 </div>
-                <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-10 mb-4 mt-1">
-                    <div className="mx-5">
-                        <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center my-4">
-                            <img className="" loading="lazy" src="https://via.placeholder.com/150" />
-                        </div>
-                        <div className="px-6 py-4">
-                            <div className="mr-auto">
-                                <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">Judul dari penelitian</h1>
-                                <div className="text-xs text-gray-600"></div>
-                            </div>
-                            <div className="flex">
-                                <div className="mr-auto">
-                                    <p className='text-[9px] text-gray-300 flex justify-end'>999+</p>
-                                </div>
-                                <div className="">
-                                    <p className='text-[9px] text-gray-300 flex justify-end'>2024-01-01</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="lg:grid grid-cols-4 mx-10 my-5 shadow-md hidden border-2 border-gray-200">
-                    <div className="col-span-3 p-4">
-                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900">
-                            <h1>Research 1</h1>
-                        </div>
-                        <div className="text-blue-900 text-md">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eveniet, pariatur fuga aspernatur autem corrupti obcaecati maxime quasi eum impedit error dolor optio iure laudantium sunt, quae, dolorum officia sit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione expedita fugiat quod deserunt quia optio corporis? Odit sit officia numquam, qui totam, nam magni, voluptatem at perspiciatis necessitatibus corrupti ab.</p>
-                        </div>
-                    </div>
-                    <div className="col-span-1 p-4 my-auto">
-                        <div className="flex justify-center">
-                            <div className="">
-                                <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src="https://via.placeholder.com/150" />
-                                <div className="text-white font-medium text-2xl text-center">
-                                    <h1>Research 1</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <DataView
+                    value={result_data}
+                    listTemplate={loopOurResearchTemplate}
+                />
                 {/* <div className="grid grid-cols-2 shadow-md">
                     <div className="col-span-1 bg-blue-900 p-10 my-auto">
                         <div className="flex justify-center">

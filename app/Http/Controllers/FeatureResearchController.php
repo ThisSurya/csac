@@ -65,19 +65,11 @@ class FeatureResearchController extends Controller
                 ]);
             }
         }
-
+        dd($request->file_upload);
         $result = $this->fs->store($request);
-
-        if($result != true){
-            return Inertia::render('Error/InternalServer');
-        }else{
-            return redirect()->to(route('feature'));
-        }
     }
 
     public function update(Request $request){
-
-
         $validator = Validator::make($request->all(), [
             'titleResearch' => 'required',
             'deskripsi' => 'required',
@@ -95,7 +87,7 @@ class FeatureResearchController extends Controller
 
         if($request->isShown){
             $length = $this->getShownableCarousel();
-            if(sizeof($length) >= 4) {
+            if(sizeof($length) > 4) {
                 throw ValidationException::withMessages([
                     'carousel' => 'Cannot more than 4!'
                 ]);
@@ -103,12 +95,6 @@ class FeatureResearchController extends Controller
         }
 
         $result = $this->fs->update($request);
-
-        if($result != true){
-            return Inertia::render('Error/InternalServer');
-        }else{
-            return redirect()->to(route('feature'));
-        }
     }
 
     public function updateShownable(Request $request){

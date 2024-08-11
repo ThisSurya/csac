@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feature_researchs', function (Blueprint $table) {
+        Schema::create('our_researchs', function (Blueprint $table) {
             $table->id();
-            $table->string('title_research');
+            $table->string('title');
             $table->text('deskripsi');
             $table->string('sampulpath')->nullable();
             $table->string('sampulname')->nullable();
-            $table->boolean('is_shown')->default(false);
+            $table->date('tanggal_mulai')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feature_researchs');
+        Schema::dropIfExists('our_researchs');
     }
 };

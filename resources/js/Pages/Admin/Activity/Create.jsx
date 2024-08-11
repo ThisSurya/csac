@@ -2,7 +2,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout2";
 import { useForm } from "@inertiajs/react";
 import TextInput from "@/Components/TextInput";
 import { Editor } from 'primereact/editor';
-import { FileUpload } from 'primereact/fileupload';
 import { Button } from "primereact/button";
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import { Dropdown } from "primereact/dropdown";
@@ -10,8 +9,11 @@ import InputError from "@/Components/InputError";
 import { Calendar } from 'primereact/calendar';
 import { useRef, useState } from "react";
 import CropImage from '@/Components/CropImage';
-
+import { InputTextarea } from "primereact/inputtextarea";
+import { Toast } from 'primereact/toast';
+import { RedirectTo } from "@/Components/RedirectTo";
 const render = (user) => {
+
     let today = new Date()
     let month = today.getMonth()
     let year = today.getFullYear()
@@ -28,8 +30,8 @@ const render = (user) => {
     maxDate.setMonth(nextMonth)
     maxDate.setFullYear(nextYear)
 
-    const [isDisable, setIsDisable] = useState(true);
-    const sampulUploader = useRef(null);
+    const [createActivity, setCreateActivity] = useState(true);
+    const [isActive, setisActive] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm({
         title: '',
         content: '',
@@ -41,10 +43,19 @@ const render = (user) => {
     });
 
     const canCreateActivity = (result) => {
-        if(result){
-            setIsDisable(false);
-        }else{
-            setIsDisable(true)
+        if (result) {
+            setCreateActivity(false);
+        } else {
+            setCreateActivity(true)
+        }
+    }
+
+    const toast = useRef(null);
+    const showMessage = (type, summary, message) => {
+        setisActive(true)
+        if (message) {
+            console.log(message)
+            toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
         }
     }
 
@@ -58,7 +69,10 @@ const render = (user) => {
     function submit(e) {
         e.preventDefault();
 
-        post(route('activity.store'));
+        post(route('activity.store'), {
+            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity')},
+            onError: () => {showMessage('error', 'tidak bisa tambah data'); setisActive(false)}
+        });
     };
 
     function handleMultipleChange(event) {
@@ -67,6 +81,7 @@ const render = (user) => {
     return (
         <div className="flex">
             <AuthenticatedLayout />
+            <Toast ref={toast} />
             <div className="flex flex-col w-screen">
                 <div className="h-16 py-4 ml-4">
                     <h1 className="text-gray-500 text-xl font-bold">Current Page: Create Activity</h1>
@@ -92,6 +107,7 @@ const render = (user) => {
                                             isFocused={true}
                                             onChange={(e) => setData('title', e.target.value)}
                                             required
+                                            disabled={isActive}
                                         />
                                     </div>
                                     <InputError message={errors.title} className="mt-2" />
@@ -102,13 +118,15 @@ const render = (user) => {
                                         <h1>Summary: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                        <TextInput
+                                        <InputTextarea
                                             id='summary_content'
                                             name='summary_content'
                                             value={data.summary_content}
                                             className=""
                                             isFocused={true}
                                             onChange={(e) => setData('summary_content', e.target.value)}
+                                            rows={5} cols={30}
+                                            disabled={isActive}
                                         />
                                     </div>
                                     <InputError message={errors.summary_content} className="mt-2" />
@@ -126,6 +144,8 @@ const render = (user) => {
                                                 borderRadius: "10px",
                                                 borderColor: "#d1d5db"
                                             }}
+                                            disabled={isActive}
+
                                         />
                                     </div>
                                     <InputError message={errors.tgl} className="mt-2" />
@@ -145,6 +165,8 @@ const render = (user) => {
                                                 borderRadius: '10px',
                                                 borderColor: '#d1d5db'
                                             }}
+                                            disabled={isActive}
+
                                         />
                                     </div>
                                     <InputError message={errors.research_type} className="mt-2" />
@@ -157,7 +179,9 @@ const render = (user) => {
                                                 value={data.content}
                                                 onTextChange={(e) => setData('content', e.htmlValue)}
                                                 style={{ height: '150px' }}
+                                                readOnly={isActive}
                                             />
+
                                         </div>
                                     </div>
                                     <InputError message={errors.content} className="mt-2" />
@@ -171,6 +195,7 @@ const render = (user) => {
                                         <CropImage
                                             ratio={1}
                                             onInputChange={(result) => { setData('sampul', result); canCreateActivity(result) }}
+                                            disabled={isActive}
                                         />
                                     </div>
                                 </div>
@@ -180,12 +205,14 @@ const render = (user) => {
                                         <h1>Dokumentasi</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <input type="file" multiple onChange={handleMultipleChange} />
+                                        <input type="file" multiple onChange={handleMultipleChange}
+                                            disabled={isActive}
+                                        />
                                         <InputError message={errors.file_upload} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined disabled={isDisable}/>
+                                    <Button label="Create" outlined disabled={createActivity} />
                                 </div>
                             </form>
                         </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\FeatureResearchController;
 use App\Http\Controllers\LandingTextController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\OurResearchController;
 use App\Http\Controllers\PartnershipController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,21 +32,22 @@ Route::get('/publication', function(){
     return Inertia::render('Error/Maintenance');
 })->name('publication.index');
 Route::get('/researcher', function(){
-    return Inertia::render('Researcher/Index');
+    return Inertia::render('Error/Maintenance');
 })->name('research.index');
 Route::get('/contact', function(){
     return Inertia::render('Contact/Index');
 })->name('contact.index');
-Route::get('/ourresearch', function(){
-    return Inertia::render('OurResearch/Index');
-})->name('ourresearch.index');
 Route::get('/partnership', function(){
     return Inertia::render('Partnership/Index');
 })->name('partnership.index');
+Route::get('/ourresearchs', function(){
+    return Inertia::render('OurResearch/Index');
+})->name('test.index');
 
 Route::get('/filterActivity', [ActivityController::class, 'getData']);
 Route::get('/getData', [ActivityController::class, 'getDataByDate']);
 Route::get('/getDate', [ActivityController::class, 'getDate']);
+Route::get('/getOurResearch', [OurResearchController::class, 'getData']);
 Route::get('/getImage', [ActivityController::class, 'getImage']);
 Route::get('/activity/detail/{id}', [ActivityController::class, 'detailPage'])->name('activity.detail');
 Route::get('feature/getFResearch/shownable', [FeatureResearchController::class, 'getShownableCarousel'])->name('feature.getData.shownable');
@@ -106,6 +108,14 @@ Route::middleware('isAdmin')->group(function(){
     Route::get('landing/admin', [LandingTextController::class, 'index'])->name('landing.admin');
     Route::get('landing/admin/edit/{id}', [LandingTextController::class, 'edit'])->name('landing.admin.edit');
     Route::post('landing/admin/edit', [LandingTextController::class, 'update'])->name('landing.admin.update');
+
+    Route::get('ourresearch/admin', [OurResearchController::class, 'index'])->name('ourresearch');
+    Route::get('ourresearch/getOResearch', [OurResearchController::class, 'getData'])->name('ourresearch.getData');
+    Route::get('ourresearch/admin/create', [OurResearchController::class, 'create'])->name('ourresearch.create');
+    Route::get('ourresearch/admin/edit/{id}', [OurResearchController::class, 'edit'])->name('ourresearch.edit');
+    Route::post('ourresearch/admin/edit', [OurResearchController::class, 'update'])->name('ourresearch.update');
+    Route::post('ourresearch/admin/create', [OurResearchController::class, 'store'])->name('ourresearch.store');
+    Route::delete('ourresearch/admin/delete/{id}', [OurResearchController::class, 'destroy'])->name('ourresearch.delete');
 });
 Route::get('landing/getLanding', [LandingTextController::class, 'getData'])->name('landing.getData');
 

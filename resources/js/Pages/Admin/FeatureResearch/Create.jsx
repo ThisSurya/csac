@@ -8,33 +8,49 @@ import TextInput from "@/Components/TextInput";
 import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
-
+import { InputTextarea } from 'primereact/inputtextarea';
+import { RedirectTo } from '@/Components/RedirectTo';
 const renderDisplay = () => {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         titleResearch: '',
         deskripsi: '',
         isShown: false,
         file_upload: '',
     });
+
+    const [createActivity, setCreateActivity] = useState(true);
+    const [isActive, setisActive] = useState(false);
     const toast = useRef(null);
-    const showSuccess = () => {
-        toast.current.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
+    const showMessage = (type, summary, message) => {
+        setisActive(true)
+        if (message) {
+            console.log(message)
+            toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
+        }
     }
 
-    const showWarn = () => {
-        toast.current.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
+    const canCreateActivity = (result) => {
+        if (result) {
+            setCreateActivity(false);
+        } else {
+            setCreateActivity(true)
+        }
     }
 
     function submit(e) {
         e.preventDefault()
-        post(route('feature.store'))
+        post(route('feature.store'));
     }
 
-    function showError(){
-        if(errors.carousel){
-            showWarn()
+    function showError() {
+        if (errors.carousel) {
+            showMessage('error', 'limitasi carousel nya ialah 4')
         }
+        setTimeout(() => {
+            clearErrors('carousel')
+        }, 10)
     }
+
     return (
         <div className="flex">
             <Authenticated />
@@ -68,6 +84,8 @@ const renderDisplay = () => {
                                             isFocused={true}
                                             onChange={(e) => setData('titleResearch', e.target.value)}
                                             required
+                                            disabled={isActive}
+
                                         />
                                         <InputError message={errors.titleResearch} className="mt-2" />
                                     </div>
@@ -77,7 +95,7 @@ const renderDisplay = () => {
                                         <h1>Deskripsi: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                        <TextInput
+                                        {/* <TextInput
                                             id='deskripsi'
                                             name='deskripsi'
                                             value={data.deskripsi}
@@ -85,6 +103,17 @@ const renderDisplay = () => {
                                             isFocused={true}
                                             onChange={(e) => setData('deskripsi', e.target.value)}
                                             required
+                                        /> */}
+                                        <InputTextarea
+                                            id='deskripsi'
+                                            name='deskripsi'
+                                            value={data.deskripsi}
+                                            className=""
+                                            isFocused={true}
+                                            onChange={(e) => setData('deskripsi', e.target.value)}
+                                            rows={5} cols={30}
+                                            disabled={isActive}
+
                                         />
                                         <InputError message={errors.deskripsi} className="mt-2" />
                                     </div>
@@ -99,6 +128,8 @@ const renderDisplay = () => {
                                             name='isShown'
                                             checked={data.isShown}
                                             onChange={(e) => setData('isShown', e.target.checked)}
+                                            disabled={isActive}
+
                                         />
                                         <InputError message={errors.isShown} className="mt-2" />
                                     </div>
@@ -109,14 +140,15 @@ const renderDisplay = () => {
                                     </div>
                                     <div className="col-span-9 my-auto">
                                         <CropImage
-                                        ratio={4/3}
-                                            onInputChange={(result) => setData('file_upload', result)}
+                                            ratio={4 / 3}
+                                            onInputChange={(result) => {setData('file_upload', result); canCreateActivity(result)}}
+                                            disabled={isActive}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined />
+                                    <Button label="Create" outlined disabled={createActivity}/>
                                 </div>
                             </form>
                         </div>

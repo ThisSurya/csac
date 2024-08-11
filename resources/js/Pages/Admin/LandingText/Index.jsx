@@ -33,7 +33,7 @@ const renderDisplay = () => {
             <AuthenticatedLayout />
             <div className="flex flex-col w-full">
                 <div className="h-16 my-4 ml-4">
-                    <h1 className="text-gray-500 text-xl font-bold">Current Page: Dashboard Editor</h1>
+                    <h1 className="text-gray-500 text-xl font-bold">Current Page: Dashboard Content editore</h1>
                 </div>
 
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2  mx-2 mb-2">

@@ -42,7 +42,6 @@ const renderDisplay = () => {
         }
     }, [])
 
-
     const getData = async () => {
         axios.get('/feature/getFResearch',
             {
@@ -68,6 +67,15 @@ const renderDisplay = () => {
             })
     }
 
+    const [enableButton, setEnableButton] = useState(true);
+    const enableDelButton = () => {
+        if(selectedProduct.length > 0){
+            setEnableButton(false)
+        }else{
+            setEnableButton(true)
+        }
+    }
+
     const showSuccess = () => {
         toast.current.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
     }
@@ -77,6 +85,7 @@ const renderDisplay = () => {
     }
 
     function showModalDelete() {
+        enableDelButton()
         setConfDelete(true)
     }
 
@@ -192,7 +201,7 @@ const renderDisplay = () => {
                                 <SecondaryButton onClick={closeModalDelete}>Batal</SecondaryButton>
                             </div>
                             <div className="ml-2">
-                                <DangerButton>Delete</DangerButton>
+                                <DangerButton disabled={enableButton}>Delete</DangerButton>
                             </div>
                         </div>
                     </form>

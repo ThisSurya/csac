@@ -30,7 +30,8 @@ class ActivityServices
                 'summary_content' => $data->summary_content,
                 'research_type' => $data->research_type,
                 'tgl' => $tanggal,
-                'sampul' => Storage::url($upload),
+                'sampulname' => $upload,
+                'sampulpath' => Storage::url($upload),
                 'user_id' => Auth::id(),
             ]);
             if ($data->hasFile('file_upload')) {
@@ -102,14 +103,30 @@ class ActivityServices
             $summary_content = $data->content;
             $activity = Activities::where('id', $data->id);
 
-            $activity->update([
-                'title' => $data->title,
-                'content' => $data->content,
-                'summary_content' => $data->summary_content,
-                'research_type' => $data->research_type,
-                'tgl' => $tanggal,
-                'summary_content' => $data->summary_content
-            ]);
+            if ($data->hasFile('sampulpath')) {
+                $olddata = $activity->get();
+                Storage::delete($olddata[0]->sampulname);
+                $upload = $data->file('sampulpath')->store('public');
+                $activity->update([
+                    'title' => $data->title,
+                    'content' => $data->content,
+                    'summary_content' => $data->summary_content,
+                    'research_type' => $data->research_type,
+                    'tgl' => $tanggal,
+                    'sampulname' => $upload,
+                    'sampulpath' => Storage::url($upload),
+                    'summary_content' => $data->summary_content
+                ]);
+            }else{
+                $activity->update([
+                    'title' => $data->title,
+                    'content' => $data->content,
+                    'summary_content' => $data->summary_content,
+                    'research_type' => $data->research_type,
+                    'tgl' => $tanggal,
+                    'summary_content' => $data->summary_content
+                ]);
+            }
 
             if ($data->hasFile('file_upload')) {
                 $this->fileupload->update($data->allFiles(), $data->id);
@@ -126,6 +143,10 @@ class ActivityServices
         try {
             $activity = Activities::whereIn('id', $id);
             $this->fileupload->destroy_image($id);
+            $urls = $activity->get();
+            foreach ($urls as $url) {
+                Storage::delete($url->sampulname);
+            }
             $activity->delete();
             return true;
         } catch (\Exception $e) {

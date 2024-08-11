@@ -81,7 +81,7 @@ export default function Guest({ children }) {
                                 </NavLink>
                             </div>
                             <div className="col-span-3">
-                                <NavLink href={route('ourresearch.index')} active={route().current('ourresearch.index')}>
+                                <NavLink href={route('test.index')} active={route().current('test.index')}>
                                     Our Research
                                 </NavLink>
                             </div>
@@ -116,7 +116,7 @@ export default function Guest({ children }) {
                                 </SecNavLink>
                             </div>
                             <div className="p-3 hover:bg-gray-200 focus:bg-gray-400">
-                                <SecNavLink href={route('ourresearch.index')} active={route().current('ourresearch.index')} className='hover:bg-gray-200'>
+                                <SecNavLink href={route('test.index')} active={route().current('test.index')} className='hover:bg-gray-200'>
                                     Our Research
                                 </SecNavLink>
                             </div>

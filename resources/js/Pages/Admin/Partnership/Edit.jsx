@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput";
 import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
+import { RedirectTo } from '@/Components/RedirectTo';
 
 const renderDisplay = (id) => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -18,26 +19,43 @@ const renderDisplay = (id) => {
         id: id.id[0].id,
     });
 
+    const [isActive, setisActive] = useState(false);
     const toast = useRef(null);
-    const showSuccess = () => {
-        toast.current.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
+    const showMessage = (type, summary, message) => {
+        setisActive(true)
+        if (message) {
+            console.log(message)
+            toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
+        }
     }
 
-    const showWarn = () => {
-        toast.current.show({severity:'warn', summary: 'Warning', detail:'Carousel limitation is 4', life: 3000});
-    }
 
+    const [createActivity, setCreateActivity] = useState(true);
+    const canCreateActivity = (result) => {
+        if (result) {
+            setCreateActivity(false);
+        } else {
+            setCreateActivity(true)
+        }
+    }
 
     function submit(e) {
         e.preventDefault()
 
-        post(route('partnership.update'))
+        post(route('partnership.update'), {
+            onSuccess: () => {showMessage('success', 'Data berhasil diubah!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('partnership')},
+                onError: () => {showMessage('error', 'Warning', 'tidak bisa update data'); setisActive(false)}
+        });
     }
 
-    function showError(){
-        if(errors.carousel){
-            showWarn()
+    function showError() {
+        if (errors.carousel) {
+            showMessage('error', 'limitasi carousel nya ialah 4')
         }
+        setTimeout(() => {
+            clearErrors('carousel')
+        }, 10)
     }
     return (
         <div className="flex">
@@ -72,6 +90,8 @@ const renderDisplay = (id) => {
                                             isFocused={true}
                                             onChange={(e) => setData('name', e.target.value)}
                                             required
+                                            disabled={isActive}
+
                                         />
                                         <InputError message={errors.name} className="mt-2" />
                                     </div>
@@ -89,6 +109,8 @@ const renderDisplay = (id) => {
                                             isFocused={true}
                                             onChange={(e) => setData('deskripsi', e.target.value)}
                                             required
+                                            disabled={isActive}
+
                                         />
                                         <InputError message={errors.deskripsi} className="mt-2" />
                                     </div>
@@ -102,9 +124,19 @@ const renderDisplay = (id) => {
                                             id='isShown'
                                             name='isShown'
                                             checked={data.isShown}
+                                            disabled={isActive}
+
                                             onChange={(e) => setData('isShown', e.target.checked)}
                                         />
                                         <InputError message={errors.isShown} className="mt-2" />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-12 py-2">
+                                    <div className="col-span-3 my-auto">
+                                        <h1>Sampul poto partner</h1>
+                                    </div>
+                                    <div className="col-span-9 my-auto">
+                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200}/>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
@@ -114,13 +146,14 @@ const renderDisplay = (id) => {
                                     <div className="col-span-9 my-auto">
                                         <CropImage
                                             ratio={4/3}
+                                            disabled={isActive}
                                             onInputChange={(result) => setData('file_upload', result)}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Edit" outlined />
+                                    <Button label="Update" outlined disabled={createActivity}/>
                                 </div>
                             </form>
                         </div>

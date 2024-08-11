@@ -72,12 +72,6 @@ class PartnershipController extends Controller
         }
 
         $result = $this->partnership->store($request);
-
-        if ($result != true) {
-            return Inertia::render('Error/InternalServer');
-        } else {
-            return redirect()->to(route('partnership'));
-        }
     }
 
     public function update(Request $request)
@@ -107,12 +101,6 @@ class PartnershipController extends Controller
         }
 
         $result = $this->partnership->update($request);
-
-        if ($result != true) {
-            return Inertia::render('Error/InternalServer');
-        } else {
-            return redirect()->to(route('partnership'));
-        }
     }
 
     public function updateShownable(Request $request)

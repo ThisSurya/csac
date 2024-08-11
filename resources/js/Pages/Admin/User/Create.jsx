@@ -1,13 +1,12 @@
-import { Button } from 'primereact/button';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout2";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
-import { useEffect, useState } from 'react';
+import {useRef, useEffect, useState } from 'react';
 import Checkbox from '@/Components/Checkbox';
-// import Dropdown from '@/Components/Dropdown';
-import { Dropdown } from 'primereact/dropdown';
 import PrimaryButton from '@/Components/PrimaryButton';
 import InputError from "@/Components/InputError";
+import { Toast } from 'primereact/toast';
+import { RedirectTo } from "@/Components/RedirectTo";
 
 const render = () => {
     const { data, setData, post, errors } = useForm({
@@ -18,14 +17,28 @@ const render = () => {
         isAdmin: false,
     });
 
+    const [isActive, setisActive] = useState(false);
+    const toast = useRef(null);
+    const showMessage = (type, summary, message) => {
+        setisActive(true)
+        if (message) {
+            console.log(message)
+            toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
+        }
+    }
+
     function submit(e) {
         e.preventDefault()
-        post(route('user.store'))
+        post(route('user.store'), {
+            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'), RedirectTo('user')},
+            onError: () => {showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false), setData('password', '')}
+        });
     }
 
     return (
         <div className="flex">
             <AuthenticatedLayout />
+            <Toast ref={toast} />
             <div className="flex flex-col w-screen">
                 <div className="h-16 py-4 ml-4">
                     <h1 className="text-gray-500 text-xl font-bold">Current Page: Add user</h1>
@@ -52,6 +65,7 @@ const render = () => {
                                             onChange={(e) => setData('username', e.target.value)}
                                             required
                                             placeholder='nama user'
+                                            disabled={isActive}
                                         />
                                         <InputError message={errors.username} className="mt-2" />
                                     </div>
@@ -64,12 +78,14 @@ const render = () => {
                                         <TextInput
                                             id='email'
                                             name='email'
+                                            type='email'
                                             value={data.email}
                                             className=""
                                             isFocused={true}
                                             onChange={(e) => setData('email', e.target.value)}
                                             required
                                             placeholder='example@gmail.com'
+                                            disabled={isActive}
                                         />
                                         <InputError message={errors.email} className="mt-2" />
                                     </div>
@@ -89,6 +105,7 @@ const render = () => {
                                             onChange={(e) => setData('nim', e.target.value)}
                                             required
                                             placeholder='a12.34567.890'
+                                            disabled={isActive}
                                         />
                                         <InputError message={errors.nim} className="mt-2" />
                                     </div>
@@ -108,7 +125,7 @@ const render = () => {
                                             isFocused={true}
                                             type='password'
                                             onChange={(e) => setData('password', e.target.value)}
-
+                                            disabled={isActive}
                                         />
                                         <InputError message={errors.password} className="mt-2" />
                                     </div>
@@ -125,6 +142,7 @@ const render = () => {
                                             name='isAdmin'
                                             value={data.isAdmin}
                                             onChange={(e) => setData('isAdmin', e.target.checked)}
+                                            disabled={isActive}
                                         />
                                         <InputError message={errors.isAdmin} className="mt-2" />
                                     </div>

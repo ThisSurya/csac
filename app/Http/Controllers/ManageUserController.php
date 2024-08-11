@@ -62,12 +62,6 @@ class ManageUserController extends Controller
         }
 
         $result = $this->user->store($request);
-
-        if($result != true){
-            dd($result);
-        }else{
-            return redirect()->to('user');
-        }
     }
 
     public function update(Request $request){
@@ -88,11 +82,6 @@ class ManageUserController extends Controller
         }
 
         $result = $this->user->update($request);
-        if($result != true){
-            dd($result);
-        }else{
-            return redirect()->to('user');
-        }
     }
 
     public function delete_user($id){

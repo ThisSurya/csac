@@ -42,6 +42,15 @@ const render = () => {
         fetchData()
     }, [])
 
+    const [enableButton, setEnableButton] = useState(true);
+    const enableDelButton = () => {
+        if(selectedProduct.length > 0){
+            setEnableButton(false)
+        }else{
+            setEnableButton(true)
+        }
+    }
+
     function actionRow(rowData) {
         return (
             <Link href={route('user.edit', rowData.id)}>
@@ -55,12 +64,11 @@ const render = () => {
         selectedProduct.forEach(product => {
             arr += product.id + ","
         })
-        console.log(arr)
         destroy(route('user.delete', arr))
-        getData()
     }
 
     function showModalDelete() {
+        enableDelButton()
         setConfDelete(true)
     }
 
@@ -128,7 +136,7 @@ const render = () => {
                             <SecondaryButton onClick={closeModalDelete}>Batal</SecondaryButton>
                         </div>
                         <div className="ml-2">
-                            <DangerButton onClick={deleteConfirmation}>Delete</DangerButton>
+                            <DangerButton onClick={deleteConfirmation} disabled={enableButton}>Delete</DangerButton>
                         </div>
                     </div>
                 </div>

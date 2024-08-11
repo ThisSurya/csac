@@ -20,23 +20,6 @@ const renderDisplay = () => {
     const [result_data_future, setResultDataFuture] = useState([]);
     const [shownableData, setShownableData] = useState([]);
     const [Head, setHead] = useState([]);
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1 // optional, default to 1.
-        }
-    };
 
     useEffect(() => {
         data.password = '';
@@ -61,7 +44,7 @@ const renderDisplay = () => {
     const loopActivityTemplate = (items) => {
         if (!items || items.length < 1) return (
             <div className="p-1 grid grid-cols-12 mx-24 border-b-2 gap-2 py-2">
-                <h1 className="col-span-12">Tunggulah aktivitas kami!</h1>
+                <h1 className="col-span-12 text-gray-300 font-bold">Tunggulah aktivitas kami!</h1>
             </div>
         )
 
@@ -83,7 +66,7 @@ const renderDisplay = () => {
                 <div className="hidden p-1 lg:grid grid-cols-12 lg:mx-24 mx-12 border-b-2 gap-2 py-2">
                     <div className="col-span-1 my-auto">
                         <div className="border-2 p-2 border-gray-200 rounded-lg">
-                            <img className="" loading="lazy" src={`${product.sampul}`} width={150} />
+                            <img className="" loading="lazy" src={`${product.sampulpath}`} width={150} />
                         </div>
                     </div>
                     <div className="col-span-10 flex items-center">
@@ -109,7 +92,7 @@ const renderDisplay = () => {
                 <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-10 my-4">
                     <div className="mx-5">
                         <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center my-4">
-                            <img className="" loading="lazy" src={`${product.sampul}`} />
+                            <img className="" loading="lazy" src={`${product.sampul}`} width={10} />
                         </div>
                         <div className="px-6 py-4">
                             <div className="mr-auto">
@@ -144,7 +127,7 @@ const renderDisplay = () => {
                 )}
             </div>
             {/* Content carousel */}
-            <div className="bg-[#1e3a8a] lg:mt-16 mt-8 lg:py-8 py-4">
+            <div className="bg-blue-900 lg:mt-16 mt-8 lg:py-8 py-4">
                 <div className="px-10">
                     <div className="border-b-2">
                         <h1 className="text-center lg:text-4xl text-3xl font-semibold text-white lg:pb-5 pb-3">Feature Research</h1>
@@ -218,77 +201,79 @@ const renderDisplay = () => {
                     </Carousel>;
                 </div>
             </div>
-            {/*  Activities and member login */}
-            <div className="lg:my-12">
-                <div className="lg:mt-10 mt-5 grid grid-cols-12">
-                    <div className="col-span-12 md:col-span-9">
-                        <div className="grid grid-cols-12">
-                            <div className="col-span-1"></div>
-                            <div className="col-span-10 border-b-4 border-[#e4f47c]">
-                                <div className="flex">
-                                    <h1 className="text-left font-bold text-lg mr-auto">Our activities</h1>
-                                    <Link href={route('activity.index')} className='hover:text-gray-500 hover:border-b-2 hover:border-gray-500'>
-                                        Lebih banyak
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <DataView value={result_data_past_now} listTemplate={loopActivityTemplate} />
-                    </div>
-                    <div className="lg:col-span-2 col-span-12 my-3 lg:m-0">
-                        <div className="grid grid-flow-row auto-rows-max">
-                            <div className="border rounded lg:block mx-auto lg:m-0">
-                                <h1 className="font-bold text-md border-b-2 my-3 mx-3 pb-2 text-center">Member area</h1>
-                                <form action="" onSubmit={submit}>
-                                    <div className="mx-7">
-                                        <div className="mt-2 mx-4">
-                                            <TextInput
-                                                id="email"
-                                                name="email"
-                                                value={data.nim}
-                                                onChange={(e) => setData('email', e.target.value)}
-                                                isFocused={true}
-                                                placeholder="email"
-                                            />
-                                            <InputError message={errors.email} className="mt-2" />
-                                        </div>
-
-                                        <div className="mt-2 mx-4">
-                                            <TextInput
-                                                id="password"
-                                                name="password"
-                                                value={data.password}
-                                                onChange={(e) => setData('password', e.target.value)}
-                                                type="password"
-                                                isFocused={true}
-                                                placeholder="password"
-                                            />
-                                            <InputError message={errors.password} className="mt-2" />
-                                        </div>
-                                        <button
-                                            class="mt-5 tracking-wide font-semibold bg-[#1e3a8a] text-gray-100 w-full py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none mb-4">
-                                            <span class="ml-3">
-                                                Sign Up
-                                            </span>
-                                        </button>
+            <div className="bg-white">
+                {/*  Activities and member login */}
+                <div className="lg:my-12">
+                    <div className="lg:mt-10 grid grid-cols-12">
+                        <div className="col-span-12 md:col-span-9 mt-5">
+                            <div className="grid grid-cols-12">
+                                <div className="col-span-1"></div>
+                                <div className="col-span-10 border-b-4 border-[#e4f47c]">
+                                    <div className="flex">
+                                        <h1 className="text-left font-bold text-lg mr-auto">Our activities</h1>
+                                        <Link href={route('activity.index')} className='hover:text-gray-500 hover:border-b-2 hover:border-gray-500'>
+                                            Lebih banyak
+                                        </Link>
                                     </div>
-                                </form>
-                            </div>
-                            <div className="mx-12 mt-6 lg:m-0">
-                                <div className="border text-center">
-                                    <h1 className='font-semibold text-lg'>Agenda</h1>
                                 </div>
-                                {
-                                    result_data_future.map(data => (
-                                        <div className="border text-center" key={data.id}>
-                                            <h1 className='text-sm'>{data.tgl}</h1>
+                            </div>
+                            <DataView value={result_data_past_now} listTemplate={loopActivityTemplate} />
+                        </div>
+                        <div className="lg:col-span-2 col-span-12 my-3 lg:m-0">
+                            <div className="grid grid-flow-row auto-rows-max">
+                                <div className="border rounded lg:block mx-auto lg:m-0">
+                                    <h1 className="font-bold text-md border-b-2 my-3 mx-3 pb-2 text-center">Member area</h1>
+                                    <form action="" onSubmit={submit}>
+                                        <div className="mx-7">
+                                            <div className="mt-2 mx-4">
+                                                <TextInput
+                                                    id="email"
+                                                    name="email"
+                                                    value={data.nim}
+                                                    onChange={(e) => setData('email', e.target.value)}
+                                                    isFocused={true}
+                                                    placeholder="email"
+                                                />
+                                                <InputError message={errors.email} className="mt-2" />
+                                            </div>
+
+                                            <div className="mt-2 mx-4">
+                                                <TextInput
+                                                    id="password"
+                                                    name="password"
+                                                    value={data.password}
+                                                    onChange={(e) => setData('password', e.target.value)}
+                                                    type="password"
+                                                    isFocused={true}
+                                                    placeholder="password"
+                                                />
+                                                <InputError message={errors.password} className="mt-2" />
+                                            </div>
+                                            <button
+                                                class="mt-5 tracking-wide font-semibold bg-[#1e3a8a] text-gray-100 w-full py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none mb-4">
+                                                <span class="ml-3">
+                                                    Login
+                                                </span>
+                                            </button>
                                         </div>
-                                    ))
-                                }
+                                    </form>
+                                </div>
+                                <div className="mx-12 mt-6 lg:m-0">
+                                    <div className="border text-center">
+                                        <h1 className='font-semibold text-lg'>Agenda</h1>
+                                    </div>
+                                    {
+                                        result_data_future.map(data => (
+                                            <div className="border text-center" key={data.id}>
+                                                <h1 className='text-sm'>{data.tgl}</h1>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
             {/* Footer */}

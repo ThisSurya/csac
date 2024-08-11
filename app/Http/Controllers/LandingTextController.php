@@ -11,12 +11,12 @@ use Inertia\Inertia;
 class LandingTextController extends Controller
 {
     public function Index(){
-        dd('sdfkjogsd');
+        return Inertia::render('Admin/LandingText/Index');
     }
 
     public function edit($id){
         $data = LandingText::where('id', $id)->get();
-        return Inertia::render('Admin/LandingText/Edit');
+        return Inertia::render('Admin/LandingText/Edit', ['id' => $data]);
     }
 
     public function getData(){
@@ -37,12 +37,9 @@ class LandingTextController extends Controller
                 'deskripsi' => 'This field is required!'
             ]);
         }
-
         $landing = LandingText::where('id', $request->id);
         $landing->update([
             'deskripsi' => $request->deskripsi
         ]);
-
-        return redirect()->to(route('landing'));
     }
 }

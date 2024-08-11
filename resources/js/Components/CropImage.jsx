@@ -3,7 +3,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { drawImageOnCanvas, generateImage } from '@/Components/utils';
 
-const renderComponent = ({onInputChange, ratio}) => {
+const renderComponent = ({onInputChange, ratio, disabled}) => {
     const [image, setImage] = useState();
 
     const [imgSrc, setImgSrc] = useState();
@@ -48,6 +48,7 @@ const renderComponent = ({onInputChange, ratio}) => {
                     accept='image/*'
                     onChange={handleFileSelect}
                     placeholder='Choose file'
+                    disabled={disabled}
                 />
             </div>
 
