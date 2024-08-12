@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
+import HelperCard from '@/Components/HelperCard';
 
 const render = () => {
     const { data, setData, post, processing, error, reset, delete: destroy } = useForm({
@@ -80,8 +81,12 @@ const render = () => {
         <div className="flex">
             <AuthenticatedLayout />
             <div className="flex flex-col w-full">
-                <div className="h-16 mt-4 ml-4">
-                    <h1 className="text-gray-500 text-xl font-bold">Current Page: User</h1>
+                <div className="h-16 mt-4 ml-4 flex">
+                    <h1 className="text-gray-500 text-xl font-bold mr-2">Current Page: User</h1>
+            <HelperCard
+                header={<h1>User Page</h1>}
+                content={<p>Disini kamu bisa membuat member untuk setiap anggota dan bisa nentuin role dari masing masing member dengan mencentang bagian is Admin!</p>}
+            />
                 </div>
 
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2  mx-2 mb-2">
@@ -115,6 +120,7 @@ const render = () => {
                                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                                 <Column field="name" header="Name" style={{ width: '25%' }}></Column>
                                 <Column field="email" header="Email" style={{ width: '25%' }}></Column>
+                                <Column field="isadmin" header="Admin" style={{ width: '25%' }}></Column>
                                 <Column field="nim" header="nim" style={{ width: '25%' }}></Column>
                                 <Column header="Action" body={actionRow} style={{ width: '25%' }}></Column>
                             </DataTable>
