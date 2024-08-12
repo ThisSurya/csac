@@ -30,6 +30,11 @@ const renderDisplay = (id) => {
         }
     }
 
+    const [textLength, setTextLength] = useState([]);
+    const charCounter = (word) => {
+        setTextLength(word.length)
+    }
+
     function submit(e) {
         e.preventDefault()
         post(route('feature.update'), {
@@ -106,11 +111,12 @@ const renderDisplay = (id) => {
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => setData('deskripsi', e.target.value)}
+                                            onChange={(e) => {setData('deskripsi', e.target.value); charCounter(e.target.value)}}
                                             rows={5} cols={30}
                                             disabled={isActive}
 
                                         />
+                                        <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
                                         <InputError message={errors.deskripsi} className="mt-2" />
                                     </div>
                                 </div>

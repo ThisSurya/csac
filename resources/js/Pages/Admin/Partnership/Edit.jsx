@@ -39,13 +39,20 @@ const renderDisplay = (id) => {
         }
     }
 
+    const [textLength, setTextLength] = useState([]);
+    const charCounter = (word) => {
+        setTextLength(word.length)
+    }
+
     function submit(e) {
         e.preventDefault()
 
         post(route('partnership.update'), {
-            onSuccess: () => {showMessage('success', 'Data berhasil diubah!, kamu akan di redirect dalam 2 detik');
-                RedirectTo('partnership')},
-                onError: () => {showMessage('error', 'Warning', 'tidak bisa update data'); setisActive(false)}
+            onSuccess: () => {
+                showMessage('success', 'Data berhasil diubah!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('partnership')
+            },
+            onError: () => { showMessage('error', 'Warning', 'tidak bisa update data'); setisActive(false) }
         });
     }
 
@@ -107,11 +114,11 @@ const renderDisplay = (id) => {
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => setData('deskripsi', e.target.value)}
+                                            onChange={(e) => { setData('deskripsi', e.target.value); charCounter(e.target.value) }}
                                             required
                                             disabled={isActive}
-
                                         />
+                                        <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
                                         <InputError message={errors.deskripsi} className="mt-2" />
                                     </div>
                                 </div>
@@ -120,7 +127,7 @@ const renderDisplay = (id) => {
                                         <h1>Is Shown</h1>
                                     </div>
                                     <div className="col-span-9">
-                                    <Checkbox
+                                        <Checkbox
                                             id='isShown'
                                             name='isShown'
                                             checked={data.isShown}
@@ -136,7 +143,7 @@ const renderDisplay = (id) => {
                                         <h1>Sampul poto partner</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200}/>
+                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200} />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
@@ -145,7 +152,7 @@ const renderDisplay = (id) => {
                                     </div>
                                     <div className="col-span-9 my-auto">
                                         <CropImage
-                                            ratio={4/3}
+                                            ratio={4 / 3}
                                             disabled={isActive}
                                             onInputChange={(result) => setData('file_upload', result)}
                                         />
@@ -153,7 +160,7 @@ const renderDisplay = (id) => {
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Update" outlined disabled={createActivity}/>
+                                    <Button label="Update" outlined disabled={createActivity} />
                                 </div>
                             </form>
                         </div>

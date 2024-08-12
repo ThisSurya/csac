@@ -37,7 +37,7 @@ class OurResearchController extends Controller
     public function store(Request $request){
         $validate = Validator::make($request->all(), [
             'title' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:300',
             'file_upload' => 'max:2048|mimes:jpeg,png,jpg,gif,svg',
             'tanggal_mulai' => 'required'
         ]);
@@ -45,7 +45,7 @@ class OurResearchController extends Controller
         if($validate->fails()){
             ValidationException::withMessages([
                 'title' => 'this field is required!',
-                'deskripsi' => 'this field is required!',
+                'deskripsi' => 'this field is required!, limit is 300 character',
                 'file_upload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg',
                 'tanggal_mulai' => 'this field is required!'
             ]);
@@ -63,7 +63,7 @@ class OurResearchController extends Controller
     public function update(Request $request){
         $validate = Validator::make($request->all(), [
             'title' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:300',
             'file_upload' => 'max:2048|mimes:jpeg,png,jpg,gif,svg',
             'tanggal_mulai' => 'required'
         ]);
@@ -71,7 +71,7 @@ class OurResearchController extends Controller
         if($validate->fails()){
             ValidationException::withMessages([
                 'title' => 'this field is required!',
-                'deskripsi' => 'this field is required!',
+                'deskripsi' => 'this field is required!, limit is 300 character',
                 'file_upload' => 'Limit size is 2 mb and supported type: jpeg,png,jpg,gif,svg',
                 'tanggal_mulai' => 'this field is required!'
             ]);

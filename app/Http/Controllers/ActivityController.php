@@ -93,7 +93,7 @@ class ActivityController extends Controller
             'title' => 'required',
             'content' => 'required',
             'research_type' => 'required',
-            'summary_content' => 'required|max:50',
+            'summary_content' => 'required|max:300',
             'tgl' => 'required',
             'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'sampul.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
@@ -104,7 +104,7 @@ class ActivityController extends Controller
         if ($validator->fails()) {
             throw ValidationException::withMessages([
                 'title' => 'The field is required!',
-                'summary_content' => ' max 200 character!',
+                'summary_content' => 'max 300 character!',
                 'research_type' => 'The field is required!',
                 'content' => 'The field is required!',
                 'tgl' => 'This field is required',
@@ -129,7 +129,7 @@ class ActivityController extends Controller
             'title' => 'required',
             'content' => 'required',
             'research_type' => 'required',
-            'summary_content' => 'required|max:50',
+            'summary_content' => 'required|max:300',
             'tgl' => 'required',
             'file_upload.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg',
             'sampul.*' => 'required|max:2048|mimes:jpeg,png,jpg,gif,svg'
@@ -141,7 +141,7 @@ class ActivityController extends Controller
         if ($validator->fails()) {
             throw ValidationException::withMessages([
                 'title' => 'The field is required!',
-                'summary_content' => ' max 200 character!',
+                'summary_content' => ' max 300 character!',
                 'research_type' => 'The field is required!',
                 'content' => 'The field is required!',
                 'tgl' => 'This field is required',

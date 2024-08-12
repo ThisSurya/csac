@@ -30,6 +30,11 @@ const render = (user) => {
     maxDate.setMonth(nextMonth)
     maxDate.setFullYear(nextYear)
 
+    const [textLength, setTextLength] = useState([]);
+    const charCounter = (word) => {
+        setTextLength(word.length)
+    }
+
     const [createActivity, setCreateActivity] = useState(true);
     const [isActive, setisActive] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -54,7 +59,6 @@ const render = (user) => {
     const showMessage = (type, summary, message) => {
         setisActive(true)
         if (message) {
-            console.log(message)
             toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
         }
     }
@@ -124,11 +128,13 @@ const render = (user) => {
                                             value={data.summary_content}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => setData('summary_content', e.target.value)}
+                                            onChange={(e) => {setData('summary_content', e.target.value); charCounter(e.target.value) }}
                                             rows={5} cols={30}
                                             disabled={isActive}
                                         />
+                                        <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
                                     </div>
+
                                     <InputError message={errors.summary_content} className="mt-2" />
                                 </div>
 

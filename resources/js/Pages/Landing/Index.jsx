@@ -72,9 +72,9 @@ const renderDisplay = () => {
                     <div className="col-span-10 flex items-center">
                         <div className="">
                             <h1 className="text-blue-900 font-medium text-xl border-b-2 border-b-blue-900">{product.title}</h1>
-                            <div className="" dangerouslySetInnerHTML={paragraph_render(product.content)}></div>
+                            <div className="">{product.summary_content}</div>
                             <div className="flex">
-                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.created_at}</p>
+                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.tgl}</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ const renderDisplay = () => {
                         <div className="px-6 py-4">
                             <div className="mr-auto">
                                 <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">{product.title}</h1>
-                                <div className="text-xs text-gray-600" dangerouslySetInnerHTML={paragraph_render(product.content)}></div>
+                                <div className="text-xs text-gray-600">{product.summary_content}</div>
                             </div>
                             <div className="flex">
                                 <div className="mr-auto">

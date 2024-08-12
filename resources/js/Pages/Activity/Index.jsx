@@ -72,7 +72,7 @@ const render = () => {
                     <div className="col-span-10 flex items-center">
                         <div className="">
                             <h1 className="text-xl font-bold">{product.title}</h1>
-                            <div className="" dangerouslySetInnerHTML={paragraph_render(product.content)}></div>
+                            <div className="" dangerouslySetInnerHTML={paragraph_render(product.summary_content)}></div>
                             <div className="flex">
                                 <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.created_at}</p>
                             </div>

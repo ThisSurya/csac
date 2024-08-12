@@ -52,12 +52,12 @@ class PartnershipController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:500',
         ]);
         if ($validator->fails()) {
             throw ValidationException::withMessages([
                 'name' => 'This field is required',
-                'deskripsi' => 'This field is required',
+                'deskripsi' => 'This field is required, limit is 500 character',
                 'isShown' => 'This field is required',
             ]);
         }
@@ -81,13 +81,13 @@ class PartnershipController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:500',
         ]);
 
         if ($validator->fails()) {
             throw ValidationException::withMessages([
                 'name' => 'This field is required',
-                'deskripsi' => 'This field is required',
+                'deskripsi' => 'This field is required, limit is 500 character',
             ]);
         }
 

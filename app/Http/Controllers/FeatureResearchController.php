@@ -46,13 +46,13 @@ class FeatureResearchController extends Controller
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'titleResearch' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:300',
             'isShown' => 'required',
         ]);
         if($validator->fails()){
             throw ValidationException::withMessages([
                 'titleResearch' => 'This field is required',
-                'deskripsi' => 'This field is required',
+                'deskripsi' => 'This field is required, limit is 300 character!',
                 'isShown' => 'This field is required',
             ]);
         }
@@ -72,14 +72,14 @@ class FeatureResearchController extends Controller
     public function update(Request $request){
         $validator = Validator::make($request->all(), [
             'titleResearch' => 'required',
-            'deskripsi' => 'required',
+            'deskripsi' => 'required|max:300',
             'isShown' => 'required',
         ]);
 
         if($validator->fails()){
             throw ValidationException::withMessages([
                 'titleResearch' => 'This field is required',
-                'deskripsi' => 'This field is required',
+                'deskripsi' => 'This field is required, limit is 300 character',
                 'isShown' => 'This field is required',
             ]);
         }
