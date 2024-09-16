@@ -3,7 +3,10 @@ import '../../../css/activity.css';
 import Footer from '@/Layouts/FooterLayout';
 import { useEffect, useState } from 'react';
 
-const render = () => {
+const render = (id) => {
+    const bgstyle = {
+        backgroundImage: `url(${id.id[0].sampulpath})`
+    }
     const [Head, setHead] = useState([]);
     useEffect(() => {
         async function fetchData() {
@@ -15,7 +18,7 @@ const render = () => {
     }, [])
 
     return (
-        <div className="container bg-cover bg-local bg-center max-h-screen">
+        <div className="container bg-cover bg-local bg-center max-h-screen" style={bgstyle}>
             <Header />
             <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
                 <div className="lg:block hidden">

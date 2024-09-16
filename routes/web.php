@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\BackgroundController;
 use App\Http\Controllers\FeatureResearchController;
+use App\Http\Controllers\GuestPageController;
 use App\Http\Controllers\LandingTextController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\OurResearchController;
@@ -22,9 +24,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Landing/Index');
-})->name('landing');
+Route::get('/', [GuestPageController::class, 'LandingIndex'])->name('landing');
 Route::get('/activity', function () {
     return Inertia::render('Activity/Index');
 })->name('activity.index');
@@ -34,15 +34,9 @@ Route::get('/publication', function () {
 Route::get('/researcher', function () {
     return Inertia::render('Error/Maintenance');
 })->name('research.index');
-Route::get('/contact', function () {
-    return Inertia::render('Contact/Index');
-})->name('contact.index');
-Route::get('/partnership', function () {
-    return Inertia::render('Partnership/Index');
-})->name('partnership.index');
-Route::get('/ourresearchs', function () {
-    return Inertia::render('OurResearch/Index');
-})->name('test.index');
+Route::get('/contact', [GuestPageController::class, 'ContactIndex'])->name('contact.index');
+Route::get('/partnership', [GuestPageController::class, 'PartnerIndex'])->name('partnership.index');
+Route::get('/ourresearchs', [GuestPageController::class, 'OurResearchIndex'])->name('test.index');
 
 Route::get('/filterActivity', [ActivityController::class, 'getData']);
 Route::get('/getData', [ActivityController::class, 'getDataByDate']);
@@ -53,9 +47,7 @@ Route::get('/activity/detail/{id}', [ActivityController::class, 'detailPage'])->
 Route::get('feature/getFResearch/shownable', [FeatureResearchController::class, 'getShownableCarousel'])->name('feature.getData.shownable');
 Route::get('partnership/getPartnership/shownable', [PartnershipController::class, 'getShownableCarousel'])->name('partnership.getData.shownable');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [BackgroundController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -113,6 +105,7 @@ Route::middleware('isAdmin')->group(function () {
     Route::post('/user/admin/edit', [ManageUserController::class, 'update'])->name('user.update');
     Route::delete('/user/admin/delete/{id}', [ManageUserController::class, 'delete_user'])->name('user.delete');
 
+    Route::post('/user/admin/edit/background', [BackgroundController::class, 'store'])->name('background.store');
 
     Route::get('landing/admin', [LandingTextController::class, 'index'])->name('landing.admin');
     Route::get('landing/admin/edit/{id}', [LandingTextController::class, 'edit'])->name('landing.admin.edit');

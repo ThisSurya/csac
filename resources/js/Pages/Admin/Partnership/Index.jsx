@@ -10,7 +10,6 @@ import DangerButton from "@/Components/DangerButton";
 import { DataTable } from 'primereact/datatable';
 import axios from "axios";
 import HelperCard from '@/Components/HelperCard';
-import { Toast } from 'primereact/toast';
 
 const renderDisplay = () => {
     const { data, setData, post, processing, error, reset, delete: destroy } = useForm({

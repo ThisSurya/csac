@@ -68,6 +68,14 @@ return [
             'throw' => false,
         ],
 
+        'background_public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/background_public'),
+            'url' => env('APP_URL').'/background',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -97,6 +105,7 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('sampul') => storage_path('app/sampul_public'),
         public_path('ourresearch') => storage_path('app/ourresearch_public'),
+        public_path('background') => storage_path('app/background_public'),
         public_path('partner') => storage_path('app/partner_public'),
     ],
 

@@ -12,6 +12,7 @@ import CropImage from '@/Components/CropImage';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from 'primereact/toast';
 import { RedirectTo } from "@/Components/RedirectTo";
+
 const render = (user) => {
 
     let today = new Date()
@@ -36,7 +37,9 @@ const render = (user) => {
     }
 
     const [createActivity, setCreateActivity] = useState(true);
+    // is active yang mengontrol input bisa diisi, boolean
     const [isActive, setisActive] = useState(false);
+
     const { data, setData, post, processing, errors, reset } = useForm({
         title: '',
         content: '',
@@ -113,8 +116,8 @@ const render = (user) => {
                                             required
                                             disabled={isActive}
                                         />
-                                    </div>
                                     <InputError message={errors.title} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-12 py-2">
@@ -133,9 +136,8 @@ const render = (user) => {
                                             disabled={isActive}
                                         />
                                         <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
-                                    </div>
-
                                     <InputError message={errors.summary_content} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-12 py-2">
@@ -153,8 +155,8 @@ const render = (user) => {
                                             disabled={isActive}
 
                                         />
-                                    </div>
                                     <InputError message={errors.tgl} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
@@ -174,8 +176,8 @@ const render = (user) => {
                                             disabled={isActive}
 
                                         />
-                                    </div>
                                     <InputError message={errors.research_type} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-12 my-auto">

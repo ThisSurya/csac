@@ -103,10 +103,10 @@ class ActivityServices
             $summary_content = $data->content;
             $activity = Activities::where('id', $data->id);
 
-            if ($data->hasFile('sampulpath')) {
+            if ($data->hasFile('sampul')) {
                 $olddata = $activity->get();
                 Storage::delete($olddata[0]->sampulname);
-                $upload = $data->file('sampulpath')->store('public');
+                $upload = $data->file('sampul')->store('public');
                 $activity->update([
                     'title' => $data->title,
                     'content' => $data->content,

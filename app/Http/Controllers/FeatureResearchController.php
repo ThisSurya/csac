@@ -65,7 +65,7 @@ class FeatureResearchController extends Controller
                 ]);
             }
         }
-        dd($request->file_upload);
+        // dd($request->file_upload);
         $result = $this->fs->store($request);
     }
 

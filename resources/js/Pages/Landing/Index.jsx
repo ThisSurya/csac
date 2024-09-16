@@ -9,9 +9,10 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { DataView } from "primereact/dataview";
 import DOMPurify from 'dompurify';
 
-const renderDisplay = () => {
-
-
+const renderDisplay = (id) => {
+    const bgstyle = {
+        backgroundImage: `url(${id.id[0].sampulpath})`
+    }
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -37,6 +38,7 @@ const renderDisplay = () => {
     }, [])
 
     function submit(e) {
+        console.log(bgstyle.backgroundImage)
         e.preventDefault()
         post(route('login'))
     }
@@ -115,7 +117,7 @@ const renderDisplay = () => {
     }
 
     return (
-        <div className="container bg-cover bg-local bg-center max-h-screen">
+        <div className="container bg-cover bg-local bg-center max-h-screen" style={bgstyle}>
             <Header />
             {/* Header CSAC  */}
             <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">

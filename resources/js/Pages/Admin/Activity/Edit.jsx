@@ -68,7 +68,7 @@ const render = (id) => {
     function submit(e) {
         e.preventDefault()
         post(route('activity.update'), {
-            onSuccess: () => { showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity') },
+            onSuccess: () => { showMessage('success', 'Success', 'Data berhasil diubah!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity') },
             onError: () => {showMessage('error', 'Warning', 'tidak bisa update data'); setisActive(false)}
         });
     }
@@ -107,8 +107,8 @@ const render = (id) => {
                                             required
                                             disabled={isActive}
                                         />
-                                    </div>
                                     <InputError message={errors.title} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-12 py-2">
@@ -128,8 +128,8 @@ const render = (id) => {
 
                                         />
                                         <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
-                                    </div>
                                     <InputError message={errors.summary_content} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-12 py-2">
@@ -146,8 +146,8 @@ const render = (id) => {
                                             }}
                                             disabled={isActive}
                                         />
-                                    </div>
                                     <InputError message={errors.tgl} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-3 my-auto">
@@ -166,8 +166,8 @@ const render = (id) => {
                                             }}
                                             disabled={isActive}
                                         />
-                                    </div>
                                     <InputError message={errors.research_type} className="mt-2" />
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
                                     <div className="col-span-12 my-auto">

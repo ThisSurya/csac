@@ -54,7 +54,6 @@ class OurResearchServices
                 $image = $data->file_upload->store('ourresearch_public');
                 $image2 = str_replace('/storage/ourresearch_public/', '/ourresearch/', Storage::url($image));
 
-
                 $result = $ourr->update([
                     'title' => $data->title,
                     'deskripsi' => $data->deskripsi,

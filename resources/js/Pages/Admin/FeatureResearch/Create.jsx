@@ -24,7 +24,6 @@ const renderDisplay = () => {
     const showMessage = (type, summary, message) => {
         setisActive(true)
         if (message) {
-            console.log(message)
             toast.current.show({ severity: type, summary: summary, detail: message, life: 10000 });
         }
     }
@@ -44,7 +43,10 @@ const renderDisplay = () => {
 
     function submit(e) {
         e.preventDefault()
-        post(route('feature.store'));
+        post(route('feature.store'), {
+            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('feature')},
+            onError: () => {showMessage('error', 'tidak bisa tambah data'); setisActive(false)}
+        });
     }
 
     function showError() {

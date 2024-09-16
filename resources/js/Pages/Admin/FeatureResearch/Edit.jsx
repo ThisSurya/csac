@@ -160,7 +160,7 @@ const renderDisplay = (id) => {
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined disabled={createActivity}/>
+                                    <Button label="Update" outlined/>
                                 </div>
                             </form>
                         </div>
