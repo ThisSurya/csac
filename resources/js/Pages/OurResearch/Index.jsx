@@ -3,11 +3,12 @@ import '../../../css/activity.css';
 import Footer from '@/Layouts/FooterLayout';
 import { useEffect, useState } from 'react';
 import { DataView } from 'primereact/dataview';
+import baseImage from '../../../img/bg.jpeg'
 
 const render = (id) => {
-    const bgstyle = {
-        backgroundImage: `url(${id.id[0].sampulpath})`
-    }
+
+    const [bgstyle, setBgStyle] = useState(baseImage)
+
     const [Head, setHead] = useState([]);
     const [result_data, setResulData] = useState([]);
     useEffect(() => {
@@ -19,6 +20,9 @@ const render = (id) => {
             setResulData(await get2.json())
         }
         fetchData()
+        if(id.id[0]){
+            setBgStyle(id.id[0].sampulpath)
+        }
     }, [])
 
     const loopOurResearchTemplate = (items) => {
@@ -72,9 +76,6 @@ const render = (id) => {
                         <div className="flex justify-center">
                             <div className="">
                                 <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src={`${rowData.sampulpath}`} width={150}/>
-                                <div className="text-blue-900 font-medium text-2xl text-center">
-                                    <h1>{rowData.title}</h1>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,9 +85,9 @@ const render = (id) => {
     }
 
     return (
-        <div className="container bg-cover bg-local bg-center max-h-screen" style={bgstyle}>
+        <div className="max-h-screen">
             <Header />
-            <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
+            {/* <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
                 <div className="lg:block hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="white" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -103,9 +104,9 @@ const render = (id) => {
                         <p className="lg:text-xl text-white text-right">{data.deskripsi}</p>
                     </div>
                 )}
-            </div>
+            </div> */}
 
-            <div className="bg-white lg:mt-16 mt-8 lg:py-8 py-4">
+            <div className="bg-white lg:mt-8 lg:py-8 py-4">
                 <div className="px-10 lg:pb-2 pb-1">
                     <div className="border-b-2 border-blue-900">
                         <h1 className="text-center lg:text-4xl text-3xl font-semibold text-blue-900 lg:pb-5">Our Research</h1>
@@ -115,47 +116,9 @@ const render = (id) => {
                 <DataView
                     value={result_data}
                     listTemplate={loopOurResearchTemplate}
+                    paginator
+                    rows={4}
                 />
-                {/* <div className="grid grid-cols-2 shadow-md">
-                    <div className="col-span-1 bg-blue-900 p-10 my-auto">
-                        <div className="flex justify-center">
-                            <div className="">
-                                <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src="https://via.placeholder.com/150" />
-                                <div className="text-white font-medium text-2xl text-center">
-                                    <h1>Research 1</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-span-1 bg-white p-10 my-auto">
-                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900 text-end">
-                            <h1>Research 1</h1>
-                        </div>
-                        <div className="text-blue-900 text-sm text-end">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eveniet, pariatur fuga aspernatur autem corrupti obcaecati maxime quasi eum impedit error dolor optio iure laudantium sunt, quae, dolorum officia sit!</p>
-                        </div>
-                    </div>
-                </div> */}
-                {/* <div className="grid grid-cols-2 shadow-md">
-                    <div className="col-span-1 bg-blue-900 p-10 my-auto">
-                        <div className="flex justify-center">
-                            <div className="">
-                                <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src="https://via.placeholder.com/150" />
-                                <div className="text-white font-medium text-2xl text-center">
-                                    <h1>Research 1</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-span-1 bg-white p-10 my-auto">
-                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900 text-end">
-                            <h1>Research 1</h1>
-                        </div>
-                        <div className="text-blue-900 text-sm text-end">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eveniet, pariatur fuga aspernatur autem corrupti obcaecati maxime quasi eum impedit error dolor optio iure laudantium sunt, quae, dolorum officia sit!</p>
-                        </div>
-                    </div>
-                </div> */}
             </div>
             <div className="">
                 <Footer />

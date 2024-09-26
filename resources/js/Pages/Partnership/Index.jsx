@@ -4,12 +4,10 @@ import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import { useEffect, useState } from 'react';
 import { DataView } from 'primereact/dataview';
-
+import baseImage from '../../../img/bg.jpeg'
 
 const renderDisplay = (id) => {
-    const bgstyle = {
-        backgroundImage: `url(${id.id[0].sampulpath})`
-    }
+    const [bgstyle, setBgStyle] = useState(baseImage)
     const [Head, setHead] = useState([]);
     const [shownableData, setShownableData] = useState([])
     useEffect(() => {
@@ -20,12 +18,15 @@ const renderDisplay = (id) => {
             setShownableData(await get2.json())
         }
         fetchData()
+        if(id.id[0]){
+            setBgStyle(id.id[0].sampulpath)
+        }
     }, [])
 
     const loopItemTemplate = (items) => {
         if (!items || items.length < 1) return (
-            <div className="p-1 grid grid-cols-12 mx-24 border-b-2 gap-2 py-2">
-                <h1 className="col-span-12">Hubungi kami untuk kerjasama</h1>
+            <div className="p-1 text-center py-2">
+                <h1 className="font-semibold">👇Hubungi kami untuk kerjasama 👇</h1>
             </div>
         )
 
@@ -75,39 +76,17 @@ const renderDisplay = (id) => {
         )
     }
     return (
-        <div className="container bg-cover bg-local bg-center max-h-screen" style={bgstyle}>
+        <div>
             <Header />
+            <img src={bgstyle} alt="" className='w-screen lg:h-[90vh]'/>
             {/* Header CSAC  */}
-            <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
-                <div className="lg:block hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"
-                        viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2"
-                        stroke-linecap="round" stroke-linejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-heart-handshake">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" /><path d="M12.5 15.5l2 2" /><path d="M15 13l2 2" />
-                    </svg>
-                </div>
-                <div className="lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"
-                        viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2"
-                        stroke-linecap="round" stroke-linejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-heart-handshake">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /><path d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" /><path d="M12.5 15.5l2 2" /><path d="M15 13l2 2" />
-                    </svg>
-                </div>
-
-                {Head.map(data =>
-                    <div className="">
-                        <h1 className="lg:text-6xl text-white lg:font-bold font-semibold text-3xl text-right">{data.section}</h1>
-                        <p className="lg:text-xl text-white text-right">{data.deskripsi}</p>
-                    </div>
-                )}
+            <div className="lg:px-10 px-7">
             </div>
             {/* Content carousel */}
-            <div className="bg-white lg:mt-16 mt-8 lg:py-8 py-4">
+            <div className="bg-white lg:py-8 py-4">
                 <div className="px-10">
                     <div className="border-b-2">
-                        <h1 className="text-center lg:text-4xl text-3xl font-semibold text-blue-900 lg:pb-5 pb-3">Our partnership</h1>
+                        <h1 className="text-center lg:text-4xl text-3xl font-semibold text-black lg:pb-5 pb-3">Our partnership</h1>
                     </div>
                 </div>
                 <div className="lg:px-32 px-2 lg:mt-10 mt-4">
@@ -163,19 +142,17 @@ const renderDisplay = (id) => {
                     <div className="text-[#252f3f] text-xl font-medium">
                         <h1>Bukti kepercayaan mereka pada kami:</h1>
                     </div>
-
                     <DataView value={shownableData} listTemplate={loopItemTemplate} />
                 </div>
 
-                <div className="lg:mx-10 mx-5 py-6">
-                    <div className="grid grid-cols-2">
-
+                <div className="lg:mx-10 mx-5 py-6 border-t-2 border-gray-200 rounded-xl">
+                    <div className="grid grid-cols-2 px-4">
                         <div className="col-span-1 font-semibold text-[#252f3f] lg:text-5xl text-2xl border-r-gray-200 border-r-2 mx-2 my-auto">
-                            <h1>Ingin menjadi bagian dari kami?</h1>
+                            <h1>Jadilah bagian dari kami!</h1>
                         </div>
-                        <div className="col-span-1 mx-2">
-                            <p className='text-sm lg:text-md'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aliquid doloremque assumenda sunt quia officia cumque necessitatibus, saepe nesciunt totam, ea quasi ipsum ullam iusto, sequi sapiente fugit ducimus consequuntur?</p>
-                            <div className='mt-auto'>
+                        <div className="col-span-1 mx-auto my-auto lg:mx-10">
+                            <p className='text-sm lg:text-md hidden lg:block'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad aliquid doloremque assumenda sunt quia officia cumque necessitatibus, saepe nesciunt totam, ea quasi ipsum ullam iusto, sequi sapiente fugit ducimus consequuntur?</p>
+                            <div className='mt-auto my-2'>
                                 <a href="#" className="flex text-[#252f3f] items-center font-medium underline decoration-1">
                                     <p className='text-xl mr-2'>Klik Disini</p>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#252f3f" className="bi bi-arrow-right-circle" viewBox="0 0 16 16">

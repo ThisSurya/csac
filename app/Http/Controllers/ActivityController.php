@@ -41,7 +41,7 @@ class ActivityController extends Controller
     public function detailPage($id)
     {
         $request = Activities::where('id', $id)->get();
-        $documentation = Fileuploads::where('activities_id', $id)->get();
+        $documentation = $this->fileupload->getData($id);
         if(sizeof($request) < 1){
             return Inertia::render('Error/NotFound');
         }

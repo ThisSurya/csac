@@ -5,7 +5,7 @@ import logo from '../../img/Logo-Web-Putih-980x204.png'
 import NavLink from '@/Components/NavLink';
 import SecNavLink from '@/Components/SecNavLink';
 import DropdownNavLink from '@/Components/DropdownNavLink';
-export default function Guest({ children }) {
+export default function Guest({ children, className = '' }) {
     const [isShow, setShow] = useState(false);
     const dropdownDiv = useRef();
 
@@ -52,7 +52,7 @@ export default function Guest({ children }) {
         )
     }
     return (
-        <header className="">
+        <header className={className}>
             <div className="hidden lg:block">
                 <div className="top-0 grid grid-cols-12 px-8 pb-8 bg-blue-900 lg:h-24 h-20 pt-1">
                     <div className="col-span-1"></div>

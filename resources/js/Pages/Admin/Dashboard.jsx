@@ -6,14 +6,23 @@ import { useForm } from "@inertiajs/react";
 import { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { useEffect } from "react";
+import baseImage from '../../../img/bg.jpeg';
 
 const render = (id) => {
     const [updateImage, setUpdateImage] = useState(true);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    let infobg = baseImage
+
+    const [bgstyle, setBgStyle] = useState(baseImage)
 
     useEffect(()=>{
+        if(id.id[0]){
+            infobg = id.id[0].sampulpath
+            setBgStyle(id.id[0].sampulpath)
+        }
+        console.log(bgstyle)
         const image = new Image();
-        image.src = id.id[0].sampulpath
+        image.src = infobg
 
         image.onload = () => {
             setDimensions({
@@ -21,6 +30,7 @@ const render = (id) => {
                 height: image.height
             })
         }
+        console.log(bgstyle)
     }, [])
 
     const canUpdateImage = (result) => {
@@ -84,7 +94,7 @@ const render = (id) => {
                     <div className="p-5">
                         <h1 className="text-gray-500 font-semibold">Background image yang digunakan: </h1>
                         <div className="mt-2">
-                            <img src={`${id.id[0].sampulpath}`} alt="" width={600}/>
+                            <img src={`${bgstyle}`} alt="" width={600}/>
                         </div>
                         <div className="mr-2">
                             <p>Height: {dimensions.width}</p>
@@ -98,7 +108,7 @@ const render = (id) => {
                         <form action="" onSubmit={submit} method="post">
                             <h1 className="text-gray-500 font-semibold">Ganti image: </h1>
                             <CropImage
-                                ratio={3 / 2}
+                                ratio={1800 / 847}
                                 onInputChange={(result) => { setData('file_upload', result); canUpdateImage(result) }}
                             />
                             <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">

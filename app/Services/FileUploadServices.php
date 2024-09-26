@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUploadServices
 {
+    public function getData($uid){
+        try{
+            $documentation = Fileuploads::where('activities_id', $uid)->get();
+
+            return $documentation;
+        }catch(\Exception $e){
+            return false;
+        }
+    }
+
     public function store($array_image, $id)
     {
         try {

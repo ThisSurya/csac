@@ -31,7 +31,6 @@ class BackgroundController extends Controller
         }
 
         $result = $this->background->store($request);
-        dd($result);
     }
 
     public function index()
