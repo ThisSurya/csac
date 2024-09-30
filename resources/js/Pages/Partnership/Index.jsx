@@ -18,7 +18,7 @@ const renderDisplay = (id) => {
             setShownableData(await get2.json())
         }
         fetchData()
-        if(id.id[0]){
+        if (id.id[0]) {
             setBgStyle(id.id[0].sampulpath)
         }
     }, [])
@@ -41,20 +41,18 @@ const renderDisplay = (id) => {
         return (
             <div className="">
                 {/* Jika akses menggunakan desktop */}
-                <div className="border-gray-200 rounded-lg shadow-md border-2 hidden lg:block border-b-4 border-b-blue-900 m-2">
-                    <div className="p-2">
-                        <div className="grid grid-cols-12">
-                            <div className="col-span-2">
-                                <img src={`${data.sampulpath}`} width={240} alt="" className='p-2'/>
-                            </div>
-                            <div className="col-span-10 my-auto">
-                                <div className="text-xl font-semibold">
-                                    <h1>{data.name}</h1>
-                                </div>
-                                <div className="text-gray-600 text-sm">
-                                    <p>Konten singkat</p>
-                                </div>
-                            </div>
+                <div className="lg:flex hidden p-6 mx-10 mb-4 shadow-md border-2 border-gray-200">
+                    <div className="w-[80%] h-[18vh]">
+                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900">
+                            <h1>{data.name}</h1>
+                        </div>
+                        <div className="text-blue-900 text-md mb-auto  line-clamp-3">
+                            <p>{data.deskripsi}</p>
+                        </div>
+                    </div>
+                    <div className="flex justify-end w-[20%] relative">
+                        <div className="">
+                            <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src={`${data.sampulpath}`} width={200} />
                         </div>
                     </div>
                 </div>
@@ -62,12 +60,12 @@ const renderDisplay = (id) => {
                 <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-2 my-4">
                     <div className="mx-5">
                         <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center mt-4">
-                            <img className="" loading="lazy" src={`${data.sampulpath}`} width={240}  />
+                            <img className="" loading="lazy" src={`${data.sampulpath}`} width={240} />
                         </div>
-                        <div className="pb-4 pt-2">
+                        <div className="my-4">
                             <div className="mr-auto">
                                 <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">{data.nama}</h1>
-                                <div className="text-xs text-gray-600">Deskripsi kerjasama</div>
+                                <div className="text-xs text-gray-600 mt-2">Deskripsi kerjasama</div>
                             </div>
                         </div>
                     </div>
@@ -78,70 +76,25 @@ const renderDisplay = (id) => {
     return (
         <div>
             <Header />
-            <img src={bgstyle} alt="" className='w-screen lg:h-[90vh]'/>
-            {/* Header CSAC  */}
-            <div className="lg:px-10 px-7">
-            </div>
             {/* Content carousel */}
-            <div className="bg-white lg:py-8 py-4">
-                <div className="px-10">
+            <div className="bg-white lg:my-8 my-4 ">
+                <div className="mx-10">
                     <div className="border-b-2">
-                        <h1 className="text-center lg:text-4xl text-3xl font-semibold text-black lg:pb-5 pb-3">Our partnership</h1>
+                        <h1 className="uppercase lg:text-4xl text-3xl font-semibold lg:pb-5 uppercase">Our partners</h1>
                     </div>
                 </div>
-                <div className="lg:px-32 px-2 lg:mt-10 mt-4">
-                    <Carousel
-                        additionalTransfrom={0}
-                        autoPlay
-                        autoPlaySpeed={1}
-                        customTransition="all 1s linear"
-                        dotListClass=""
-                        infinite
-                        removeArrowOnDeviceType={['desktop', 'tablet', 'mobile']}
-                        responsive={{
-                            desktop: {
-                                breakpoint: {
-                                    max: 3000,
-                                    min: 1024
-                                },
-                                items: 3,
-                                partialVisibilityGutter: 40
-                            },
-                            mobile: {
-                                breakpoint: {
-                                    max: 464,
-                                    min: 0
-                                },
-                                items: 1,
-                                partialVisibilityGutter: 30
-                            },
-                            tablet: {
-                                breakpoint: {
-                                    max: 1024,
-                                    min: 464
-                                },
-                                items: 2,
-                                partialVisibilityGutter: 30
-                            }
-                        }}
-                        transitionDuration={3000}
-                    >
-                        {shownableData.map(data =>
-                            <div className="px-8">
-                                <a className="p-4 max-w-xs border shadow-md border-white bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
-                                    href="#">
-                                    <img src={`${data.sampulpath}`} className="shadow rounded-lg overflow-hidden border w-70 p-2" />
-                                </a>
-                            </div>
-                        )}
+                {/* <div className="lg:mx-10 mx-2 mt-8 flex">
+                    {shownableData.map(data =>
+                        <div className="mx-4">
+                            <a className="p-1 max-w-xs shadow-md border-2 border-gray-200 bg-white rounded-2xl hover:border-gray-600 flex flex-col items-center"
+                                href="#">
+                                <img src={`${data.sampulpath}`} width={200} className="w-70 p-2" />
+                            </a>
+                        </div>
+                    )}
+                </div> */}
 
-                    </Carousel>;
-                </div>
-
-                <div className="mx-10  py-2">
-                    <div className="text-[#252f3f] text-xl font-medium">
-                        <h1>Bukti kepercayaan mereka pada kami:</h1>
-                    </div>
+                <div className="mx-10 my-8">
                     <DataView value={shownableData} listTemplate={loopItemTemplate} />
                 </div>
 

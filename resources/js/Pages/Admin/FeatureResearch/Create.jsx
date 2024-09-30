@@ -9,6 +9,7 @@ import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
+import UploadImage from "@/Components/UploadFile";
 import { RedirectTo } from '@/Components/RedirectTo';
 const renderDisplay = () => {
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
@@ -33,7 +34,7 @@ const renderDisplay = () => {
         setTextLength(word.length)
     }
 
-    const canCreateActivity = (result) => {
+    const canCreateFeatureResearch = (result) => {
         if (result) {
             setCreateActivity(false);
         } else {
@@ -147,10 +148,15 @@ const renderDisplay = () => {
                                         <h1>Sampul</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={4 / 3}
-                                            onInputChange={(result) => {setData('file_upload', result); canCreateActivity(result)}}
+                                            onInputChange={(result) => {setData('file_upload', result); canCreateFeatureResearch(result)}}
                                             disabled={isActive}
+                                        /> */}
+
+                                        <UploadImage
+                                            onInputChange={(result) => {setData('file_upload', result); canCreateFeatureResearch(result)}}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>

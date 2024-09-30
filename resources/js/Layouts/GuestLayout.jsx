@@ -1,7 +1,7 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 import React, { useEffect, useRef, useState } from "react";
-import logo from '../../img/Logo-Web-Putih-980x204.png'
+import logo from '../../img/home_csac.png'
 import NavLink from '@/Components/NavLink';
 import SecNavLink from '@/Components/SecNavLink';
 import DropdownNavLink from '@/Components/DropdownNavLink';
@@ -54,7 +54,7 @@ export default function Guest({ children, className = '' }) {
     return (
         <header className={className}>
             <div className="hidden lg:block">
-                <div className="top-0 grid grid-cols-12 px-8 pb-8 bg-blue-900 lg:h-24 h-20 pt-1">
+                {/* <div className="top-0 grid grid-cols-12 px-8 pb-8 bg-blue-900 lg:h-24 h-20 pt-1">
                     <div className="col-span-1"></div>
                     <div className="col-span-3 lg:mt-4 xl:mt-2">
                         <a href={route('landing')}>
@@ -86,6 +86,43 @@ export default function Guest({ children, className = '' }) {
                                 </NavLink>
                             </div>
                             <div className="col-span-2">
+                                <NavLink href={route('contact.index')} active={route().current('contact.index')}>
+                                    Contact us
+                                </NavLink>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
+                <div className="top-0 px-8 pb-8 bg-blue-900 lg:h-24 h-20 pt-1">
+                    <div className="mx-10 flex">
+                        <div className="lg:mt-4 xl:mt-2 mr-auto">
+                            <a href={route('landing')}>
+                                <img src={logo} className="" alt="" width={350} />
+                            </a>
+                        </div>
+
+                        <div className="space-x-8 text-white flex items-center">
+                            <div className="">
+                                <NavLink href={route('publication.index')} active={route().current('publication.index')}>
+                                    Publication
+                                </NavLink>
+                            </div>
+                            <div className="">
+                                <NavLink href={route('research.index')} active={route().current('research.index')}>
+                                    Researcher
+                                </NavLink>
+                            </div>
+                            <div className="">
+                                <NavLink href={route('partnership.index')} active={route().current('partnership.index')}>
+                                    Partnership
+                                </NavLink>
+                            </div>
+                            <div className="">
+                                <NavLink href={route('test.index')} active={route().current('test.index')}>
+                                    Our Research
+                                </NavLink>
+                            </div>
+                            <div className="">
                                 <NavLink href={route('contact.index')} active={route().current('contact.index')}>
                                     Contact us
                                 </NavLink>

@@ -11,6 +11,7 @@ import { Toast } from 'primereact/toast';
 import { RedirectTo } from '@/Components/RedirectTo';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Calendar } from 'primereact/calendar';
+import UploadImage from "@/Components/UploadFile";
 
 const renderDisplay = (id) => {
     let today = new Date()
@@ -54,7 +55,7 @@ const renderDisplay = (id) => {
     }
 
     const [createActivity, setCreateActivity] = useState(true);
-    const canCreateActivity = (result) => {
+    const canCreateOurResearch = (result) => {
         if (result) {
             setCreateActivity(false);
         } else {
@@ -66,9 +67,11 @@ const renderDisplay = (id) => {
     function submit(e) {
         e.preventDefault()
         post(route('ourresearch.update'), {
-            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil di ubah!, kamu akan di redirect dalam 2 detik');
-                RedirectTo('ourresearch')},
-                onError: () => {showMessage('error', 'Warning', 'tidak bisa edit data'); setisActive(false)}
+            onSuccess: () => {
+                showMessage('success', 'Success', 'Data berhasil di ubah!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('ourresearch')
+            },
+            onError: () => { showMessage('error', 'Warning', 'tidak bisa edit data'); setisActive(false) }
         });
     }
 
@@ -121,13 +124,13 @@ const renderDisplay = (id) => {
                                         <h1>Deskripsi: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                    <InputTextarea
+                                        <InputTextarea
                                             id='deskripsi'
                                             name='deskripsi'
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => {setData('deskripsi', e.target.value); charCounter(e.target.value)}}
+                                            onChange={(e) => { setData('deskripsi', e.target.value); charCounter(e.target.value) }}
                                             rows={5} cols={30}
                                             disabled={isActive}
                                         />
@@ -158,10 +161,15 @@ const renderDisplay = (id) => {
                                         <h1>Sampul depan</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={1}
                                             disabled={isActive}
                                             onInputChange={(result) => {setData('file_upload', result)}}
+                                        /> */}
+
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('file_upload', result); }}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>
@@ -171,12 +179,12 @@ const renderDisplay = (id) => {
                                         <h1>Sampul poto</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200}/>
+                                        <img src={`${id.id[0].sampulpath}`} alt="" width={200} />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Update" outlined/>
+                                    <Button label="Update" outlined />
                                 </div>
                             </form>
                         </div>

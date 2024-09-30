@@ -65,7 +65,7 @@ class ActivityController extends Controller
         return $request;
     }
 
-    public function getDate()
+    public function getDateFuture()
     {
         date_default_timezone_set('Asia/Makassar');
         $now = date('Y-m-d');

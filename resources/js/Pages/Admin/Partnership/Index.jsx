@@ -116,7 +116,13 @@ const renderDisplay = () => {
                     <h1 className="text-gray-500 text-xl font-bold mr-2">Current Page: Partnership</h1>
                     <HelperCard
                         header={<h1 className="mr-auto">Partnership page</h1>}
-                        content={<p>Page ini berisi sponsor yang akan ditampilkan dalam carousel, limitasi pada carousel nya ialah 4. Kamu bisa memilih sponsor mana aja yang akan ditampilkan dengan mencentang mengubah menjadi true bagian is shown</p>}
+                        content={
+                            <div className="">
+                                <p>1. Page ini berisi sponsor yang akan ditampilkan dalam carousel, limitasi pada carousel nya ialah 4. Kamu bisa memilih sponsor mana aja yang akan ditampilkan dengan mencentang mengubah menjadi true bagian is shown</p>
+                                <p>2. Rekomendasi ukuran foto sampul yang digunakan 4:3</p>
+                            </div>
+                        }
+
                     />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2 mx-2 mb-2">

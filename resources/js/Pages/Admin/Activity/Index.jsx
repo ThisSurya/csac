@@ -60,9 +60,9 @@ const render = () => {
 
     const [enableButton, setEnableButton] = useState(true);
     const enableDelButton = () => {
-        if(selectedProduct.length > 0){
+        if (selectedProduct.length > 0) {
             setEnableButton(false)
-        }else{
+        } else {
             setEnableButton(true)
         }
     }
@@ -83,7 +83,7 @@ const render = () => {
         setConfDelete(true)
     }
 
-    function closeModalDelete(){
+    function closeModalDelete() {
         setConfDelete(false)
     }
 
@@ -96,7 +96,13 @@ const render = () => {
                     <h1 className="text-gray-500 text-xl font-bold mr-2">Current Page: Activity</h1>
                     <HelperCard
                         header={<h1 className="mr-auto">Activity page</h1>}
-                        content={<p>Page ini berisi konten aktivitas yang akan ditampilkan pada activities page</p>}
+                        content={
+                            <div className="">
+                                <p>1. Page ini berisi konten aktivitas yang akan ditampilkan pada activities page</p>
+                                <p>2. Sampul nya memiliki perbandingan ukuran 1:1</p>
+                                <p>3. Dokumentasi nya memiliki perbandingan ukuran 4:3</p>
+                            </div>
+                        }
                     />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2  mx-2 mb-2">
@@ -128,12 +134,12 @@ const render = () => {
                                 selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} dataKey="id"
                             >
                                 <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                                <Column field="title" header="Title" style={{ width: '15%' }}></Column>
-                                <Column field="summary_content" header="Summary" style={{ width: '35%' }}></Column>
-                                <Column field="user_id" header="User id" style={{ width: '5%' }}></Column>
-                                <Column field="tgl" header="Date release" style={{ width: '10%' }}></Column>
-                                <Column field="research_type" header="research type" style={{ width: '15%' }}></Column>
-                                <Column header="Action" body={actionRow} style={{ width: '20%' }}></Column>
+                                <Column field="title" header="Title" className="w-[15%]"></Column>
+                                <Column field="summary_content" header="Summary" className="truncate max-w-[25vh]"></Column>
+                                <Column field="user_id" header="User id" className="w-[5%]"></Column>
+                                <Column field="tgl" header="Date release" className="w-[10%]"></Column>
+                                <Column field="research_type" header="research type" className="w-[15%]"></Column>
+                                <Column header="Action" body={actionRow} className="w-[20%]"></Column>
                             </DataTable>
                         </div>
                     </div>

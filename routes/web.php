@@ -40,7 +40,7 @@ Route::get('/ourresearchs', [GuestPageController::class, 'OurResearchIndex'])->n
 
 Route::get('/filterActivity', [ActivityController::class, 'getData']);
 Route::get('/getData', [ActivityController::class, 'getDataByDate']);
-Route::get('/getDate', [ActivityController::class, 'getDate']);
+Route::get('/getDataFuture', [ActivityController::class, 'getDateFuture']);
 Route::get('/getOurResearch', [OurResearchController::class, 'getData']);
 Route::get('/getImage', [ActivityController::class, 'getImage']);
 Route::get('/activity/detail/{id}', [ActivityController::class, 'detailPage'])->name('activity.detail');

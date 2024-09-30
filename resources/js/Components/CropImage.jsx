@@ -21,10 +21,6 @@ const renderComponent = ({onInputChange, ratio, disabled}) => {
         }
     };
 
-    function getImage(){
-        return image
-    }
-
     const handleCompleteCrop = async (crop) => {
         drawImageOnCanvas(imgRef.current, canvasRef.current, crop);
         setCompletedCrop(crop);

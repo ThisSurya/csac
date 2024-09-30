@@ -28,11 +28,11 @@ const renderDisplay = (id) => {
         async function fetchData() {
             const get = await fetch('/getData?dateoperand=3')
             setResultDataPast(await get.json())
-            const get2 = await fetch('/getDate?dateoperand=2')
+            const get2 = await fetch('/getDataFuture?dateoperand=2')
             setResultDataFuture(await get2.json())
             const get3 = await fetch('/landing/getLanding?section=1')
             setHead(await get3.json())
-            const get4 = await fetch(route('feature.getData.shownable'))
+            const get4 = await fetch('/feature/getFResearch/shownable')
             setShownableData(await get4.json())
         }
         fetchData()
@@ -70,53 +70,41 @@ const renderDisplay = (id) => {
         return (
             <Link href={route('activity.detail', product.id)} key={product.id}>
                 {/* Jika akses menggunakan desktop */}
-                <div className="lg:grid grid-cols-12 mx-10 lg:border-b-2 hidden gap-4 lg:my-2 my-8 p-4">
-                    <div className="col-span-1 my-auto">
-                        <div className="border-2 p-2 border-gray-200 rounded-lg">
-                            <img className="" loading="lazy" src={`${product.sampulpath}`} width={150} />
+                <div className="lg:flex hidden p-6 mx-10 my-4 shadow-md border-2 border-gray-200">
+                    <div className="w-[80%] h-[120px] flex flex-col">
+                        <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900">
+                            <h1>{product.title}</h1>
+                        </div>
+                        <div className="text-blue-900 text-md line-clamp-3">
+                            <p>{product.summary_content}</p>
+                        </div>
+                        <div className="mt-auto">
+                            <p className='font-light text-gray-600 text-sm mt-auto'>{product.tgl}</p>
                         </div>
                     </div>
-                    <div className="col-span-10 flex items-center">
+                    <div className="flex justify-end w-[20%] relative">
                         <div className="">
-                            <h1 className="text-blue-900 font-medium text-xl border-b-2 border-b-blue-900">{product.title}</h1>
-                            <div className="leading-4 text-gray-700">{product.summary_content}</div>
-                            {/* <div className="flex">
-                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.tgl}</p>
-                            </div> */}
-                        </div>
-                    </div>
-                    <div className="col-span-1 hidden lg:flex flex-col items-center">
-                        <div className="flex my-auto items-center">
-                            <p className="text-gray-500 text-md mr-auto">Read </p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-bar-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5" />
-                            </svg>
+                            <img className="border-2 p-2 bg-white rounded-lg" loading="lazy" src={`${product.sampulpath}`} width={120} />
                         </div>
                     </div>
                 </div>
 
                 {/* Akses menggunakan mobile */}
-                <div className="lg:hidden grid grid-cols-12 border-2 lg:my-2 my-8 p-8 shadow-md">
-                    <div className="col-span-12 my-1">
-                        <div className="border-2 border-gray-200 rounded-lg">
-                            <img className="mx-auto" loading="lazy" src={`${product.sampulpath}`} width={150} />
+                <div className="rounded-lg border-2 hover:border-gray-500 shadow-md lg:hidden mx-10 mb-4 mt-1">
+                    <div className="mx-5">
+                        <div className="border-2 p-2 border-gray-200 rounded-lg flex justify-center my-4">
+                            <img className="" loading="lazy" src={`${product.sampulpath}`} width={150} />
                         </div>
-                    </div>
-                    <div className="col-span-12 flex items-center">
-                        <div className="">
-                            <h1 className="text-blue-900 font-medium text-xl border-b-2 border-b-blue-900 my-1">{product.title}</h1>
-                            <div className="leading-4 text-gray-700 my-1">{product.summary_content}</div>
-                            {/* <div className="flex">
-                                <p className="text-xs text-gray-500 mr-auto">Tanggal upload:  {product.tgl}</p>
-                            </div> */}
-                        </div>
-                    </div>
-                    <div className="col-span-1 hidden lg:flex flex-col items-center">
-                        <div className="flex my-auto items-center">
-                            <p className="text-gray-500 text-md mr-auto">Read </p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-bar-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5" />
-                            </svg>
+                        <div className="px-6 py-4">
+                            <div className="mr-auto">
+                                <h1 className="text-blue-900 font-semibold text-lg border-b-2 border-b-blue-900">{product.title}</h1>
+                                <div className="text-xs text-gray-600"></div>
+                            </div>
+                            <div className="flex">
+                                <div className="mr-auto">
+                                    <p className='text-[9px] text-gray-300 flex justify-end'>{product.tgl}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -133,16 +121,16 @@ const renderDisplay = (id) => {
             </div>
             {/* Content carousel */}
             <div className="bg-white lg:py-8 py-4 relative z-20">
-                <div className="px-10">
-                    <div className="border-b-2 uppercase leading-4">
+                <div className="mx-10">
+                    <div className="border-b-2 border-blue-900 uppercase">
                         <h1 className="lg:text-4xl text-3xl font-semibold text-black lg:pb-5 pb-3">Featured Research</h1>
                     </div>
                 </div>
-                <div className="lg:px-32 px-2 lg:mt-10 mt-4">
+                <div className="lg:mx-32 mx-10 lg:mt-10 mt-4">
                     <Carousel
                         additionalTransfrom={0}
                         // arrows
-                        autoPlaySpeed={3000}
+                        // autoPlaySpeed={3000}
                         centerMode={false}
                         containerClass="container-with-dots"
                         // draggable
@@ -185,24 +173,24 @@ const renderDisplay = (id) => {
                         shouldResetAutoplay
                         showDots={false}
                         slidesToSlide={1}
-                        // swipeable
+                    // swipeable
                     >
                         {shownableData.map(data =>
                             <div className="px-8 pb-8">
+                                {console.log(data)}
                                 <a class="h-[60vh] p-4 max-w-xs shadow-xl border-2 border-white bg-white hover:border-gray-600 flex flex-col"
                                     href="#">
                                     <img src={data.sampulpath} class="shadow rounded-lg overflow-hidden border w-70 p-2" />
                                     <div className="mt-4 px-2">
-                                        <h4 class="font-bold text-lg">{data.title_research}</h4>
+                                        <h4 class="font-bold text-lg leading-4">{data.title_research}</h4>
                                     </div>
-                                    <div class="overflow-auto px-2 break-words capitalize">
+                                    <div class="px-2 break-words capitalize">
                                         <p class="lg:mt-2 text-sm text-gray-700 mb-auto leading-4">{data.deskripsi}
                                         </p>
                                     </div>
                                 </a>
                             </div>
                         )}
-
                     </Carousel>;
                 </div>
             </div>
@@ -210,20 +198,21 @@ const renderDisplay = (id) => {
                 {/*  Activities and member login */}
                 <div className="lg:my-8">
                     <div className="mx-10">
-                        <div className="border-b-2 border-gray-200 uppercase mr-auto flex items-center">
-                            <h1 className='font-semibold text-4xl lg:pb-5 pb-3 mr-auto'>Activities</h1>
-                            <a href={route('activity.index')} className='hover:text-gray-300 ease-in-out duration-200'>More</a>
-                        </div>
-                        <div className="text-black">
-                        </div>
-                        <div className="flex lg:mt-5 mt-3 flex-col lg:flex-row">
-                            {/* Activities */}
-                            <div className="">
-                                <DataView value={result_data_past_now} listTemplate={loopActivityTemplate} />
+                        <div className="flex items-start flex-col lg:flex-row">
+                            <div className="lg:mr-4 mx-auto my-4 lg:my-0">
+                                <div className="border-b-2 border-blue-900 uppercase mr-auto">
+                                    <h1 className='font-semibold text-4xl lg:pb-5 pb-3 mr-auto'>Activities</h1>
+                                </div>
+                                <div className="">
+                                    <DataView value={result_data_past_now} listTemplate={loopActivityTemplate} />
+                                </div>
+                                <div className="text-right">
+                                    <a href={route('activity.index')} className='hover:text-gray-300 ease-in-out duration-200 font-normal text-2xl underline mr-10'>More</a>
+                                </div>
                             </div>
                             {/* Login section */}
-                            <div className="min-w-[20%]">
-                                <div className="border-2 border-gray-200 shadow-md relative z-0">
+                            <div className="lg:min-w-[20%] lg:ml-4 min-w-full">
+                                <div className="border-2 border-gray-200 shadow-md relative z-0 mx-auto">
                                     <div className="p-4">
                                         <div className="text-center font-semibold text-xl border-b-2 border-[#e4f47c]" >
                                             <h1>Member area</h1>
@@ -260,7 +249,6 @@ const renderDisplay = (id) => {
                                                 </span>
                                             </button>
                                         </form>
-
                                     </div>
                                 </div>
                                 <div className="relative z-10 shadow-md my-4">
@@ -276,6 +264,7 @@ const renderDisplay = (id) => {
                                     }
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

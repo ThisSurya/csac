@@ -9,6 +9,7 @@ import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
 import { RedirectTo } from '@/Components/RedirectTo';
+import UploadImage from "@/Components/UploadFile";
 
 const renderDisplay = () => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -29,7 +30,7 @@ const renderDisplay = () => {
     }
 
     const [createActivity, setCreateActivity] = useState(true);
-    const canCreateActivity = (result) => {
+    const canCreatePartnership = (result) => {
         if (result) {
             setCreateActivity(false);
         } else {
@@ -46,9 +47,11 @@ const renderDisplay = () => {
     function submit(e) {
         e.preventDefault()
         post(route('partnership.store'), {
-            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik');
-                RedirectTo('partnership')},
-                onError: () => {showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false)}
+            onSuccess: () => {
+                showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('partnership')
+            },
+            onError: () => { showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false) }
         });
     }
 
@@ -110,7 +113,7 @@ const renderDisplay = () => {
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => {setData('deskripsi', e.target.value); charCounter(e.target.value)}}
+                                            onChange={(e) => { setData('deskripsi', e.target.value); charCounter(e.target.value) }}
                                             required
                                             disabled={isActive}
 
@@ -140,16 +143,21 @@ const renderDisplay = () => {
                                         <h1>icon partner</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={4 / 3}
                                             disabled={isActive}
-                                            onInputChange={(result) => {setData('file_upload', result); canCreateActivity(result)}}
+                                            onInputChange={(result) => { setData('file_upload', result); canCreatePartnership(result) }}
+                                        /> */}
+
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('file_upload', result); canCreatePartnership(result)}}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined disabled={createActivity}/>
+                                    <Button label="Create" outlined disabled={createActivity} />
                                 </div>
                             </form>
                         </div>

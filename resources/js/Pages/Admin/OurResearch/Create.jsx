@@ -11,6 +11,7 @@ import { Toast } from 'primereact/toast';
 import { RedirectTo } from '@/Components/RedirectTo';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Calendar } from 'primereact/calendar';
+import UploadImage from "@/Components/UploadFile";
 
 const renderDisplay = () => {
     let today = new Date()
@@ -48,7 +49,7 @@ const renderDisplay = () => {
     }
 
     const [createActivity, setCreateActivity] = useState(true);
-    const canCreateActivity = (result) => {
+    const canCreateOurResearch = (result) => {
         if (result) {
             setCreateActivity(false);
         } else {
@@ -65,9 +66,11 @@ const renderDisplay = () => {
     function submit(e) {
         e.preventDefault()
         post(route('ourresearch.store'), {
-            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik');
-                RedirectTo('ourresearch')},
-                onError: () => {showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false)}
+            onSuccess: () => {
+                showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik');
+                RedirectTo('ourresearch')
+            },
+            onError: () => { showMessage('error', 'Warning', 'tidak bisa tambah data'); setisActive(false) }
         });
     }
 
@@ -120,13 +123,13 @@ const renderDisplay = () => {
                                         <h1>Deskripsi: </h1>
                                     </div>
                                     <div className="col-span-9">
-                                    <InputTextarea
+                                        <InputTextarea
                                             id='deskripsi'
                                             name='deskripsi'
                                             value={data.deskripsi}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => {setData('deskripsi', e.target.value); charCounter(e.target.value)}}
+                                            onChange={(e) => { setData('deskripsi', e.target.value); charCounter(e.target.value) }}
                                             rows={5} cols={30}
                                             disabled={isActive}
                                         />
@@ -156,16 +159,21 @@ const renderDisplay = () => {
                                         <h1>Sampul depan</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={1}
                                             disabled={isActive}
-                                            onInputChange={(result) => {setData('file_upload', result); canCreateActivity(result)}}
+                                            onInputChange={(result) => { setData('file_upload', result); canCreateOurResearch(result) }}
+                                        /> */}
+
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('file_upload', result); canCreateOurResearch(result) }}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Create" outlined disabled={createActivity}/>
+                                    <Button label="Create" outlined disabled={createActivity} />
                                 </div>
                             </form>
                         </div>

@@ -37,7 +37,7 @@ const renderDisplay = () => {
         }
         fetchData()
 
-        if(errors.length){
+        if (errors.length) {
             showWarn
         }
     }, [])
@@ -69,19 +69,19 @@ const renderDisplay = () => {
 
     const [enableButton, setEnableButton] = useState(true);
     const enableDelButton = () => {
-        if(selectedProduct.length > 0){
+        if (selectedProduct.length > 0) {
             setEnableButton(false)
-        }else{
+        } else {
             setEnableButton(true)
         }
     }
 
     const showSuccess = () => {
-        toast.current.show({severity:'success', summary: 'Success', detail:'Message Content', life: 3000});
+        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Message Content', life: 3000 });
     }
 
     const showWarn = () => {
-        toast.current.show({severity:'warn', summary: 'Warning', detail:'Message Content', life: 3000});
+        toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Message Content', life: 3000 });
     }
 
     function showModalDelete() {
@@ -109,8 +109,8 @@ const renderDisplay = () => {
         destroy(route('feature.delete', arr))
     }
 
-    function showError(){
-        if(errors.carousel){
+    function showError() {
+        if (errors.carousel) {
             showWarn()
         }
     }
@@ -127,7 +127,12 @@ const renderDisplay = () => {
                     <h1 className="text-gray-500 text-xl font-bold mr-2">Current Page: Feature Research</h1>
                     <HelperCard
                         header={<h1 className="mr-auto">Feature Research page</h1>}
-                        content={<p>Page ini berisi data yang akan ditampilkan sebagai carousel, dengan limitasi carousel sebanyak 4. Kamu bisa mengganti data yang akan ditampilkan dengan mengubah value menjadi true pada bagian kolom is shown</p>}
+                        content={
+                            <div className="">
+                                <p>1. Page ini berisi data yang akan ditampilkan sebagai carousel, dengan limitasi carousel sebanyak 4. Kamu bisa mengganti data yang akan ditampilkan dengan mengubah value menjadi true pada bagian kolom is shown</p>
+                                <p>2. Rekomendasi ukuran perbandingan foto yang digunakan di sampul 4:3</p>
+                            </div>
+                        }
                     />
                 </div>
                 <div className="bg-white shadow-lg rounded-lg border-gray-300 border-2  mx-2 mb-2">
@@ -161,9 +166,9 @@ const renderDisplay = () => {
                             >
                                 <Column selectionMode="multiple" headerStyle={{ width: '5%' }}></Column>
                                 <Column field="title_research" header="Judul" headerStyle={{ width: '25%' }}></Column>
-                                <Column field="deskripsi" header="deskripsi" style={{ width: '25%' }}></Column>
-                                <Column field="is_shown" header="Ditampilkan" style={{ width: '20%' }}></Column>
-                                <Column header="Action" body={actionRow} style={{ width: '25%' }}></Column>
+                                <Column field="deskripsi" header="deskripsi" className="truncate max-w-[25vh]"></Column>
+                                <Column field="is_shown" header="Ditampilkan" className="w-[20%]"></Column>
+                                <Column header="Action" body={actionRow} className="w-[25%]"></Column>
                             </DataTable>
                         </div>
                     </div>
@@ -179,9 +184,9 @@ const renderDisplay = () => {
                                 selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} dataKey="id"
                             >
                                 <Column field="title_research" header="Judul" headerStyle={{ width: '25%' }}></Column>
-                                <Column field="deskripsi" header="deskripsi" style={{ width: '25%' }}></Column>
-                                <Column field="is_shown" header="Ditampilkan" style={{ width: '20%' }}></Column>
-                                <Column header="Action" body={actionRow} style={{ width: '25%' }}></Column>
+                                <Column field="deskripsi" header="deskripsi" className="truncate max-w-[25vh]"></Column>
+                                <Column field="is_shown" header="Ditampilkan" className="w-[20%]"></Column>
+                                <Column header="Action" body={actionRow} className="w-[25%]"></Column>
                             </DataTable>
                         </div>
                     </div>

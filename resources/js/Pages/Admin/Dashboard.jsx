@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { useEffect } from "react";
 import baseImage from '../../../img/bg.jpeg';
+import UploadImage from "@/Components/UploadFile";
 
 const render = (id) => {
     const [updateImage, setUpdateImage] = useState(true);
@@ -15,8 +16,8 @@ const render = (id) => {
 
     const [bgstyle, setBgStyle] = useState(baseImage)
 
-    useEffect(()=>{
-        if(id.id[0]){
+    useEffect(() => {
+        if (id.id[0]) {
             infobg = id.id[0].sampulpath
             setBgStyle(id.id[0].sampulpath)
         }
@@ -54,6 +55,11 @@ const render = (id) => {
         file_upload: ''
     })
 
+    // function setImage(event){
+    //     setData('file_upload', event.target.files[0])
+    //     canUpdateImage(event.target.files[0])
+    // }
+
     function submit(e) {
         e.preventDefault();
         post(route('background.store'), {
@@ -85,6 +91,10 @@ const render = (id) => {
                                         sesaat setelah upload imagemu
                                         kamu akan potong image nya terlebih dahulu sebelum digunakan!
                                     </li>
+                                    <li>
+                                        3. Perbandingan yang direkomendasikan
+                                        2.12:1 (contoh: 2259 x 1059)
+                                    </li>
                                 </ul>
                             </div>
                         }
@@ -94,7 +104,7 @@ const render = (id) => {
                     <div className="p-5">
                         <h1 className="text-gray-500 font-semibold">Background image yang digunakan: </h1>
                         <div className="mt-2">
-                            <img src={`${bgstyle}`} alt="" width={600}/>
+                            <img src={`${bgstyle}`} alt="" width={600} />
                         </div>
                         <div className="mr-2">
                             <p>Height: {dimensions.width}</p>
@@ -107,10 +117,18 @@ const render = (id) => {
                     <div className="p-5">
                         <form action="" onSubmit={submit} method="post">
                             <h1 className="text-gray-500 font-semibold">Ganti image: </h1>
-                            <CropImage
+                            {/* <CropImage
                                 ratio={1800 / 847}
                                 onInputChange={(result) => { setData('file_upload', result); canUpdateImage(result) }}
-                            />
+                            /> */}
+                            {/* <input id='file'
+                                type='file'
+                                onChange={setImage}
+                             /> */}
+                             <UploadImage
+                                onInputChange={(result) => {setData('file_upload', result); canUpdateImage(result)}}
+                                canMultiple={false}
+                             />
                             <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
                                 <Button label="update" outlined disabled={updateImage} />
                             </div>

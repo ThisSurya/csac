@@ -59,20 +59,20 @@ class ActivityServices
     {
         $data = Activities::query()->when($key, function ($query, $key) {
             $query->where('title', 'like', "%{$key}%")->join('users', 'activities.user_id', '=', 'users.id');
-        })->take(10)->get();
+        })->orderBy('tgl', 'desc')->get();
         return $data;
     }
 
     public function getDataByDate($operand, $date)
     {
         if ($operand == '1') {
-            $data = Activities::where('tgl', '==', $date)->take(10)->get();
+            $data = Activities::where('tgl', '==', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else if ($operand == '2') {
-            $data = Activities::where('tgl', '>', $date)->take(10)->get();
+            $data = Activities::where('tgl', '>', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else if ($operand == '3') {
-            $data = Activities::where('tgl', '<=', $date)->take(10)->get();
+            $data = Activities::where('tgl', '<=', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else {
             $data = Activities::take(10)->get();
@@ -83,16 +83,16 @@ class ActivityServices
     public function getDataOnlyDate($operand, $date)
     {
         if ($operand == '1') {
-            $data = Activities::select('tgl')->where('tgl', '==', $date)->take(10)->get();
+            $data = Activities::select('tgl')->where('tgl', '==', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else if ($operand == '2') {
-            $data = Activities::select('tgl')->where('tgl', '>', $date)->take(10)->get();
+            $data = Activities::select('tgl')->where('tgl', '>', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else if ($operand == '3') {
-            $data = Activities::select('tgl')->where('tgl', '<=', $date)->take(10)->get();
+            $data = Activities::select('tgl')->where('tgl', '<=', $date)->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         } else {
-            $data = Activities::select('tgl')->take(4)->get();
+            $data = Activities::select('tgl')->take(5)->orderBy('tgl', 'desc')->get();
             return $data;
         }
     }

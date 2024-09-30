@@ -22,15 +22,14 @@ const render = (id) => {
     }, [])
 
     return (
-        <div className="container bg-cover bg-local bg-center max-h-screen" style={{ backgroundImage: `url(${bgstyle})` }}>
+        <div className="container bg-cover bg-local bg-center h-full">
             <Header />
-            <img src={bgstyle} alt="" className='w-screen lg:h-[90vh]' />
-            {/* Header CSAC  */}
-            <div className="lg:px-10 px-7">
-            </div>
-
-            <div className="text-center my-8">
-                <h1 className='font-bold text-black text-4xl'>Hubungi kami: </h1>
+            <div className="my-8">
+                <div className="px-10 lg:pb-2 pb-1">
+                    <div className="border-b-2 border-blue-900">
+                        <h1 className="uppercase lg:text-4xl text-3xl font-semibold lg:pb-5">Our Research</h1>
+                    </div>
+                </div>
                 <div className="flex justify-center items-center mt-8 gap-4">
                     <div className="border-2 flex items-center shadow-md border-gray-200 hover:border-black p-4 ease-in duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" className="bi bi-telephone-outbound" viewBox="0 0 16 16">

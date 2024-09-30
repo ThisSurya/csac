@@ -12,6 +12,7 @@ import CropImage from '@/Components/CropImage';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from 'primereact/toast';
 import { RedirectTo } from "@/Components/RedirectTo";
+import UploadImage from "@/Components/UploadFile";
 
 const render = (user) => {
 
@@ -77,14 +78,10 @@ const render = (user) => {
         e.preventDefault();
 
         post(route('activity.store'), {
-            onSuccess: () => {showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity')},
-            onError: () => {showMessage('error', 'tidak bisa tambah data'); setisActive(false)}
+            onSuccess: () => { showMessage('success', 'Success', 'Data berhasil ditambahkan!, kamu akan di redirect dalam 2 detik'); RedirectTo('activity') },
+            onError: () => { showMessage('error', 'tidak bisa tambah data'); setisActive(false) }
         });
     };
-
-    function handleMultipleChange(event) {
-        setData('file_upload', [...event.target.files]);
-    }
     return (
         <div className="flex">
             <AuthenticatedLayout />
@@ -116,7 +113,7 @@ const render = (user) => {
                                             required
                                             disabled={isActive}
                                         />
-                                    <InputError message={errors.title} className="mt-2" />
+                                        <InputError message={errors.title} className="mt-2" />
                                     </div>
                                 </div>
 
@@ -131,12 +128,12 @@ const render = (user) => {
                                             value={data.summary_content}
                                             className=""
                                             isFocused={true}
-                                            onChange={(e) => {setData('summary_content', e.target.value); charCounter(e.target.value) }}
+                                            onChange={(e) => { setData('summary_content', e.target.value); charCounter(e.target.value) }}
                                             rows={5} cols={30}
                                             disabled={isActive}
                                         />
                                         <p className="text-gray-300 font-semibold text-sm">Jumlah karakter: {textLength}</p>
-                                    <InputError message={errors.summary_content} className="mt-2" />
+                                        <InputError message={errors.summary_content} className="mt-2" />
                                     </div>
                                 </div>
 
@@ -146,7 +143,7 @@ const render = (user) => {
                                     </div>
                                     <div className="col-span-9">
                                         <Calendar value={data.tgl} onChange={(e) => setData('tgl', e.value)}
-                                            className="col-span-2 rounded-lg" minDate={minDate} maxDate={maxDate} readOnlyInput
+                                            className="col-span-2 rounded-lg" maxDate={maxDate} readOnlyInput
                                             dateFormat="yy/mm/dd"
                                             inputStyle={{
                                                 borderRadius: "10px",
@@ -155,7 +152,7 @@ const render = (user) => {
                                             disabled={isActive}
 
                                         />
-                                    <InputError message={errors.tgl} className="mt-2" />
+                                        <InputError message={errors.tgl} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
@@ -176,7 +173,7 @@ const render = (user) => {
                                             disabled={isActive}
 
                                         />
-                                    <InputError message={errors.research_type} className="mt-2" />
+                                        <InputError message={errors.research_type} className="mt-2" />
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-12 py-2">
@@ -200,11 +197,16 @@ const render = (user) => {
                                         <h1>Sampul</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={1}
                                             onInputChange={(result) => { setData('sampul', result); canCreateActivity(result) }}
                                             disabled={isActive}
+                                        /> */}
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('sampul', result); canCreateActivity(result) }}
+                                            disabled={isActive}
                                         />
+                                        <InputError message={errors.sampul} className="mt-2" />
                                     </div>
                                 </div>
 
@@ -213,8 +215,10 @@ const render = (user) => {
                                         <h1>Dokumentasi</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <input type="file" multiple onChange={handleMultipleChange}
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('file_upload', result); canCreateActivity(result) }}
                                             disabled={isActive}
+                                            canMultiple={true}
                                         />
                                         <InputError message={errors.file_upload} className="mt-2" />
                                     </div>

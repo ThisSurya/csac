@@ -64,7 +64,7 @@ const render = (id) => {
                 </div>
                 {/* jika akses menggunakan deskop */}
                 <div className="lg:grid grid-cols-4 mx-10 my-5 shadow-md hidden border-2 border-gray-200">
-                    <div className="col-span-3 p-4">
+                    <div className="col-span-3 p-8">
                         <div className="text-blue-900 font-medium text-2xl border-b-2 border-b-blue-900">
                             <h1>{rowData.title}</h1>
                         </div>
@@ -87,29 +87,10 @@ const render = (id) => {
     return (
         <div className="max-h-screen">
             <Header />
-            {/* <div className="flex flex-col items-end justify-center lg:px-10 px-7 inset-0 lg:p-40 pt-10 mb-16 lg:mb-22">
-                <div className="lg:block hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                </div>
-                <div className="lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="white" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                </div>
-                {Head.map(data =>
-                    <div className="">
-                        <h1 className="lg:text-6xl text-white lg:font-bold font-semibold text-3xl text-right">{data.section}</h1>
-                        <p className="lg:text-xl text-white text-right">{data.deskripsi}</p>
-                    </div>
-                )}
-            </div> */}
-
             <div className="bg-white lg:mt-8 lg:py-8 py-4">
                 <div className="px-10 lg:pb-2 pb-1">
                     <div className="border-b-2 border-blue-900">
-                        <h1 className="text-center lg:text-4xl text-3xl font-semibold text-blue-900 lg:pb-5">Our Research</h1>
+                        <h1 className="uppercase lg:text-4xl text-3xl font-semibold lg:pb-5">Our Research</h1>
                     </div>
                 </div>
 

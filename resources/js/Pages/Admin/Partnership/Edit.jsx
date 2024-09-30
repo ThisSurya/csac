@@ -9,6 +9,7 @@ import Checkbox from '@/Components/Checkbox';
 import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
 import { RedirectTo } from '@/Components/RedirectTo';
+import UploadImage from "@/Components/UploadFile";
 
 const renderDisplay = (id) => {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -151,16 +152,15 @@ const renderDisplay = (id) => {
                                         <h1>icon partner</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
-                                            ratio={4 / 3}
-                                            disabled={isActive}
-                                            onInputChange={(result) => setData('file_upload', result)}
+                                        <UploadImage
+                                            onInputChange={(result) => { setData('file_upload', result); }}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="ml-auto pr-3 card flex flex-wrap justify-content-center gap-3">
-                                    <Button label="Update"/>
+                                    <Button label="Update" />
                                 </div>
                             </form>
                         </div>

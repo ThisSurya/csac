@@ -10,6 +10,8 @@ import InputError from "@/Components/InputError";
 import { Toast } from 'primereact/toast';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { RedirectTo } from '@/Components/RedirectTo';
+import UploadImage from "@/Components/UploadFile";
+
 const renderDisplay = (id) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         titleResearch: id.id[0].title_research,
@@ -150,11 +152,14 @@ const renderDisplay = (id) => {
                                         <h1>Ganti Sampul</h1>
                                     </div>
                                     <div className="col-span-9 my-auto">
-                                        <CropImage
+                                        {/* <CropImage
                                             ratio={4 / 3}
                                             onInputChange={(result) => setData('file_upload', result)}
                                             disabled={isActive}
-
+                                        /> */}
+                                        <UploadImage
+                                            onInputChange={(result) => {setData('file_upload', result);}}
+                                            disabledComp={isActive}
                                         />
                                     </div>
                                 </div>
